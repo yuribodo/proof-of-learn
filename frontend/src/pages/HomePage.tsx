@@ -1,0 +1,14 @@
+import { HeroSection } from '@/components/HeroSection';
+import { FeaturesSection } from '@/components/FeaturesSection';
+import { CTASection } from '@/components/CTASection';
+
+export function HomePage() {
+  return (
+    <div className="min-h-screen bg-[#121212] text-[#E0E0E0]">
+      <HeroSection />
+      <FeaturesSection />
+
+      <CTASection />
+    </div>
+  );
+}
