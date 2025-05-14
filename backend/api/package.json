@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "dev:all": "pnpm services:up && pnpx prisma migrate dev && pnpm dev",
+    "docker:compose": "docker compose -f ./infra/docker-compose.yaml --env-file .env",
+    "services:up": "pnpm docker:compose up -d",
+    "services:down": "pnpm docker:compose down"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.17",
+    "prisma": "^6.7.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@prisma/client": "6.7.0",
+    "express": "^5.1.0"
+  }
+}
