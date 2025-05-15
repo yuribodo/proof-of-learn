@@ -7,17 +7,79 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id            String   @id @default(uuid()) @db.Uuid
+  email         String   @unique
+  name          String
+  passwordHash  String   @map("password_hash")
+  walletAddress String?  @unique @map("wallet_address")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
-model Users {
-  id           String   @id @default(uuid()) @db.Uuid
-  email        String   @unique
-  name         String
-  passwordHash String   @map("password_hash")
-  businessName String   @map("business_name")
-  state        String
-  categoryId   String   @map("category_id") @db.Uuid
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  roadMaps Roadmap[]
 
   @@map("users")
+}
+
+enum LearningStyle {
+  VISUAL
+  AUDITORY
+  READING_WRITING
+}
+
+enum KnowledgeLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+model Roadmap {
+  id                    String         @id @default(uuid()) @db.Uuid
+  userId                String         @map("user_id") @db.Uuid
+  theme                 String
+  learningGoal          String         @map("learning_goal")
+  knowledgeLevel        KnowledgeLevel @map("knowledge_level")
+  timePerHourCommitment String         @map("time_per_hour_commitment")
+  learningStyle         LearningStyle  @map("learning_style")
+  createdAt             DateTime       @default(now()) @map("created_at")
+  updatedAt             DateTime       @updatedAt @map("updated_at")
+
+  roadmapTopics RoadmapTopic[]
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("roadmaps")
+}
+
+model RoadmapTopic {
+  id               String @id @default(uuid()) @db.Uuid
+  roadmapId        String @map("roadmap_id") @db.Uuid
+  topicName        String @map("topic_name")
+  topicDescription String @map("topic_description")
+  topicIndex       Int    @map("topic_index")
+
+  roadmapTopicContents RoadmapTopicContent[]
+
+  roadmap Roadmap @relation(fields: [roadmapId], references: [id])
+
+  @@map("roadmap_topics")
+}
+
+enum TopicContentType {
+  TEXT
+  VIDEO
+}
+
+model RoadmapTopicContent {
+  id             String           @id @default(uuid()) @db.Uuid
+  roadmapTopicId String           @map("roadmap_topic_id") @db.Uuid
+  name           String
+  description    String           @map("description")
+  contentType    TopicContentType @map("content_type")
+  url            String
+  checked        Boolean          @default(false)
+
+  roadmapTopic RoadmapTopic @relation(fields: [roadmapTopicId], references: [id])
+
+  @@map("roadmap_topic_contents")
 }
