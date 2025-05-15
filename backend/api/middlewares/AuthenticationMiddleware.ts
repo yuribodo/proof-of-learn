@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 export async function AuthenticationMiddleware(
@@ -19,9 +19,12 @@ export async function AuthenticationMiddleware(
 	}
 
 	try {
-		const payload = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload;
+		const payload = jwt.verify(
+			token,
+			process.env.JWT_SECRET as string
+		) as jwt.JwtPayload;
 
-		req["userId"] = payload.id;
+		req.userId = payload.id;
 		next();
 	} catch {
 		res.status(401).send({ message: "Unauthorized" });
