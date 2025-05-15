@@ -11,6 +11,7 @@ type Props = {
 		content: React.ReactNode;
 	}[];
 };
+
 export default function Stepper({ steps, initialStep = 0 }: Props) {
 	const [currentStep, setCurrentStep] = useState(initialStep);
 
@@ -19,19 +20,20 @@ export default function Stepper({ steps, initialStep = 0 }: Props) {
 	}, []);
 
 	const nextStep = useCallback(() => {
-		setCurrentStep((prevState) => Math.min(steps.length - 1, prevState - 1));
+		setCurrentStep((prevState) => Math.min(steps.length - 1, prevState + 1));
 	}, [steps]);
 
 	return (
 		<StepperContext.Provider value={{ previousStep, nextStep }}>
 			<div>
-				<ul className="space-x-5">
+				<ul className="space-x-6">
 					{steps.map((step, index) => (
 						<li
 							key={step.label}
 							className={cn(
 								"inline-block text-xs px-2 py-1 rounded-md",
-								index === currentStep && "text-white font-semibold",
+								index === currentStep &&
+									"bg-[#6D4AFF] text-white font-semibold",
 							)}
 						>
 							{String(index + 1).padStart(2, "0")}. {step.label}
@@ -46,33 +48,46 @@ export default function Stepper({ steps, initialStep = 0 }: Props) {
 }
 
 export function StepperFooter({ children }: { children: React.ReactNode }) {
-	return <footer className="flex gap-6 mt-6">{children}</footer>;
+	return <footer className="flex gap-8 mt-6 justify-end">{children}</footer>;
 }
 
 export function StepperPreviousButton() {
 	const { previousStep } = useStepper();
 
 	return (
-		<Button size="sm" type="button" onClick={previousStep}>
-			Previous
+		<Button
+			size="sm"
+			type="button"
+			onClick={previousStep}
+			className="border-1 border-[#6D4AFF] hover:bg-[#6D4AFF] hover:scale-110 "
+		>
+			Anterior
 		</Button>
 	);
 }
 
 export function StepperNextButton() {
 	const { nextStep } = useStepper();
-
 	return (
-		<Button size="sm" type="button" onClick={nextStep}>
-			Next
+		<Button
+			size="sm"
+			type="button"
+			onClick={nextStep}
+			className="bg-[#6D4AFF] hover:bg-transparent hover:scale-110 hover:border-1 hover:border-[#6D4AFF] "
+		>
+			Próximo
 		</Button>
 	);
 }
 
 export function StepperFinishButton() {
 	return (
-		<Button size="sm" type="submit">
-			Finish
+		<Button
+			size="sm"
+			type="submit"
+			className="bg-[#6D4AFF] hover:bg-transparent hover:scale-110 hover:border-1 hover:border-[#6D4AFF]"
+		>
+			Finalizar
 		</Button>
 	);
 }
