@@ -1,34 +1,39 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "dev:all": "pnpm services:up && pnpx prisma migrate dev && pnpm dev",
-    "docker:compose": "docker compose -f ./infra/docker-compose.yaml --env-file .env",
-    "services:up": "pnpm docker:compose up -d",
-    "services:down": "pnpm docker:compose down",
-    "biome:check": "biome ci --vcs-enabled=true --vcs-use-ignore-file=true",
-    "biome:write": "biome check --vcs-enabled=true --vcs-use-ignore-file=true --write",
-    "database:seed": "pnpm prisma db seed"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.15.17",
-    "prisma": "^6.7.0",
-    "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
-  },
-  "dependencies": {
-    "@prisma/client": "6.7.0",
-    "express": "^5.1.0"
-  }
+	"name": "backend",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"dev": "tsx watch src/index.ts",
+		"dev:all": "pnpm services:up && pnpx prisma migrate dev && pnpm dev",
+		"docker:compose": "docker compose -f ./infra/docker-compose.yaml --env-file .env",
+		"services:up": "pnpm docker:compose up -d",
+		"services:down": "pnpm docker:compose down",
+		"biome:check": "biome ci --vcs-enabled=true --vcs-use-ignore-file=true",
+		"biome:write": "biome check --vcs-enabled=true --vcs-use-ignore-file=true --write",
+		"database:seed": "pnpm prisma db seed"
+	},
+	"prisma": {
+		"seed": "tsx prisma/seed.ts"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/bcryptjs": "^3.0.0",
+		"@types/express": "^5.0.1",
+		"@types/jsonwebtoken": "^9.0.9",
+		"@types/node": "^22.15.17",
+		"prisma": "^6.7.0",
+		"tsx": "^4.19.4",
+		"typescript": "^5.8.3"
+	},
+	"dependencies": {
+		"@prisma/client": "6.7.0",
+		"bcryptjs": "^3.0.2",
+		"express": "^5.1.0",
+		"jsonwebtoken": "^9.0.2",
+		"zod": "^3.24.4"
+	}
 }
