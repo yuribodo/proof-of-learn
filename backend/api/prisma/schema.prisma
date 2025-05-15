@@ -16,7 +16,8 @@ model User {
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
-  roadMaps Roadmap[]
+  roadMaps              Roadmap[]
+  RoadmapQuizUserAnswer RoadmapQuizUserAnswer[]
 
   @@map("users")
 }
@@ -39,14 +40,15 @@ model Roadmap {
   theme                 String
   learningGoal          String         @map("learning_goal")
   knowledgeLevel        KnowledgeLevel @map("knowledge_level")
-  timePerHourCommitment String         @map("time_per_hour_commitment")
+  timePerHourCommitment Int            @map("time_per_hour_commitment")
   learningStyle         LearningStyle  @map("learning_style")
   createdAt             DateTime       @default(now()) @map("created_at")
   updatedAt             DateTime       @updatedAt @map("updated_at")
 
   roadmapTopics RoadmapTopic[]
 
-  user User @relation(fields: [userId], references: [id])
+  user                 User                   @relation(fields: [userId], references: [id])
+  RoadmapQuizQuestions RoadmapQuizQuestions[]
 
   @@map("roadmaps")
 }
@@ -82,4 +84,41 @@ model RoadmapTopicContent {
   roadmapTopic RoadmapTopic @relation(fields: [roadmapTopicId], references: [id])
 
   @@map("roadmap_topic_contents")
+}
+
+model RoadmapQuizQuestions {
+  id        String @id @default(uuid()) @db.Uuid
+  roadmapId String @map("roadmap_id") @db.Uuid
+  text      String @map("text")
+
+  roadmap               Roadmap                 @relation(fields: [roadmapId], references: [id])
+  RoadmapQuizAnswer     RoadmapQuizAnswer[]
+  RoadmapQuizUserAnswer RoadmapQuizUserAnswer[]
+
+  @@map("roadmap_quiz_questions")
+}
+
+model RoadmapQuizAnswer {
+  id                     String  @id @default(uuid()) @db.Uuid
+  roadmapQuizQuestionsId String  @map("roadmap_quiz_questions_id") @db.Uuid
+  text                   String  @map("text")
+  is_correct             Boolean @default(false)
+
+  roadmapQuizQuestions  RoadmapQuizQuestions    @relation(fields: [roadmapQuizQuestionsId], references: [id])
+  RoadmapQuizUserAnswer RoadmapQuizUserAnswer[]
+
+  @@map("roadmap_quiz_answer")
+}
+
+model RoadmapQuizUserAnswer {
+  id                     String @id @default(uuid()) @db.Uuid
+  userId                 String @map("user_id") @db.Uuid
+  roadmapQuizQuestionsId String @map("roadmap_quiz_questions_id") @db.Uuid
+  roadmapQuizAnswerId    String @map("roadmap_quiz_questions_answer_id") @db.Uuid
+
+  roadmapQuizQuestions RoadmapQuizQuestions @relation(fields: [roadmapQuizQuestionsId], references: [id])
+  roadmapQuizAnwer     RoadmapQuizAnswer    @relation(fields: [roadmapQuizAnswerId], references: [id])
+  user                 User                 @relation(fields: [userId], references: [id])
+
+  @@map("roadmap_quiz_user_answer")
 }
