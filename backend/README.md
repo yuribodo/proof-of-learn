@@ -1,9 +1,9 @@
-
 ## Getting Started 💻
 
 _you must have `docker` installed_
 
 ### Step 0:
+
 - Move to `/api` folder
 
 ```bash
@@ -23,16 +23,19 @@ cp .env.example .env
 - With docker running on your machine, following commands:
 
 > it will compose the docker file
+
 ```bash
 pnpm services:up
 ```
 
 > run pending migrations
+
 ```bash
 pnpx prisma migrate dev
 ```
 
 > run development server
+
 ```bash
 pnpm dev
 ```
@@ -46,3 +49,11 @@ pnpm dev:all
 ### Step 3:
 
 - Server is running at http://localhost:3000
+
+### Step 4:
+
+- To populate database with seed data, run:
+
+```bash
+pnpm database:seed
+```
