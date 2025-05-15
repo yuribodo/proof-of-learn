@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { z } from "zod";
 import { prismaClient } from "../lib/prismaClient";
 
@@ -22,7 +22,7 @@ export async function SignInController(req: Request, res: Response) {
 
 	const { email, password } = data;
 
-	const emailExists = await prismaClient.users.findUnique({ where: { email } });
+	const emailExists = await prismaClient.user.findUnique({ where: { email } });
 	if (!emailExists) {
 		res.status(401).json({ error: "Invalid credentials." });
 		return;
@@ -37,9 +37,13 @@ export async function SignInController(req: Request, res: Response) {
 		return;
 	}
 
-	const accessToken = jwt.sign({ id: emailExists.id }, process.env.JWT_SECRET!, {
-		expiresIn: "7d",
-	});
+	const accessToken = jwt.sign(
+		{ id: emailExists.id },
+		process.env.JWT_SECRET as string,
+		{
+			expiresIn: "7d",
+		}
+	);
 
 	res.status(200).json({ accessToken });
 	return;
@@ -61,4 +65,3 @@ const schema = z.object({
 			message: 'The "password" field must have at least 6 characters',
 		}),
 });
-
