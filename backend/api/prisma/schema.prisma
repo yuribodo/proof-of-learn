@@ -39,7 +39,7 @@ model Roadmap {
   theme                 String
   learningGoal          String         @map("learning_goal")
   knowledgeLevel        KnowledgeLevel @map("knowledge_level")
-  timePerHourCommitment String         @map("time_per_hour_commitment")
+  timePerHourCommitment Int            @map("time_per_hour_commitment")
   learningStyle         LearningStyle  @map("learning_style")
   createdAt             DateTime       @default(now()) @map("created_at")
   updatedAt             DateTime       @updatedAt @map("updated_at")
