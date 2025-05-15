@@ -17,6 +17,7 @@ model User {
   updatedAt     DateTime @updatedAt @map("updated_at")
 
   roadMaps              Roadmap[]
+  RoadmapQuizUserAnswer RoadmapQuizUserAnswer[]
 
   @@map("users")
 }
@@ -46,7 +47,8 @@ model Roadmap {
 
   roadmapTopics RoadmapTopic[]
 
-  user User @relation(fields: [userId], references: [id])
+  user                 User                   @relation(fields: [userId], references: [id])
+  RoadmapQuizQuestions RoadmapQuizQuestions[]
 
   @@map("roadmaps")
 }
