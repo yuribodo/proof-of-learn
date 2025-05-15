@@ -83,3 +83,15 @@ model RoadmapTopicContent {
 
   @@map("roadmap_topic_contents")
 }
+model RoadmapQuizUserAnswer {
+  id                     String @id @default(uuid()) @db.Uuid
+  userId                 String @map("user_id") @db.Uuid
+  roadmapQuizQuestionsId String @map("roadmap_quiz_questions_id") @db.Uuid
+  roadmapQuizAnswerId    String @map("roadmap_quiz_questions_answer_id") @db.Uuid
+
+  roadmapQuizQuestions RoadmapQuizQuestions @relation(fields: [roadmapQuizQuestionsId], references: [id])
+  roadmapQuizAnwer     RoadmapQuizAnswer    @relation(fields: [roadmapQuizAnswerId], references: [id])
+  user                 User                 @relation(fields: [userId], references: [id])
+
+  @@map("roadmap_quiz_user_answer")
+}
