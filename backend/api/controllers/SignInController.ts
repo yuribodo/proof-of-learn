@@ -30,7 +30,7 @@ export async function SignInController(req: Request, res: Response) {
 
 	const passwordMatch = await bcrypt.compare(
 		password,
-		emailExists.passwordHash
+		emailExists.passwordHash,
 	);
 	if (!passwordMatch) {
 		res.status(401).json({ error: "Invalid credentials." });
@@ -42,7 +42,7 @@ export async function SignInController(req: Request, res: Response) {
 		process.env.JWT_SECRET as string,
 		{
 			expiresIn: "7d",
-		}
+		},
 	);
 
 	res.status(200).json({ accessToken });

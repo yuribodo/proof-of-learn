@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 export async function AuthenticationMiddleware(
 	req: Request,
 	res: Response,
-	next: NextFunction
+	next: NextFunction,
 ) {
 	if (!req.headers.authorization) {
 		res.status(401).send({ message: "Unauthorized" });
@@ -21,7 +21,7 @@ export async function AuthenticationMiddleware(
 	try {
 		const payload = jwt.verify(
 			token,
-			process.env.JWT_SECRET as string
+			process.env.JWT_SECRET as string,
 		) as jwt.JwtPayload;
 
 		req.userId = payload.id;
