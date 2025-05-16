@@ -1,3 +1,5 @@
+import bcrypt from "bcryptjs";
+
 import {
 	KnowledgeLevel,
 	LearningStyle,
@@ -16,11 +18,12 @@ async function main() {
 	await prismaClient.roadmap.deleteMany();
 	await prismaClient.user.deleteMany();
 
+	const password = await bcrypt.hash("123456", 2);
 	const user = await prismaClient.user.create({
 		data: {
-			email: "developer@example.com",
+			email: "user@email.com",
 			name: "John Developer",
-			passwordHash: "hashed_password_here",
+			passwordHash: password,
 		},
 	});
 
