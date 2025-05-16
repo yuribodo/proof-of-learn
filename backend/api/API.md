@@ -142,6 +142,126 @@ type Response<T> = {
 }
 ```
 
+### [GET] /api/roadmaps/:roadmap_id/quiz
+
+> returns quiz questions and answers for a specific roadmap
+
+```JSON
+{
+	"data": [
+		{
+			"id": "123456789828345678901234567890123452232",
+			"roadmap_id": "1234567890123456789012345678901234567890",
+			"text": "What is the main purpose of blockchain technology?",
+			"answers": [
+				{
+					"id": "442245678982834567890030396789012345223",
+					"text": "Decentralization and secure record-keeping",
+				},
+				{
+					"id": "442245678982834567890030396789012345224",
+					"text": "To create digital currencies only",
+				},
+				{
+					"id": "442245678982834567890030396789012345225",
+					"text": "For entertainment purposes",
+				},
+				{
+					"id": "442245678982834567890030396789012345226",
+					"text": "To replace traditional databases completely",
+				}
+			]
+		},
+		{
+			"id": "123456789828345678901234567890123452233",
+			"roadmap_id": "1234567890123456789012345678901234567890",
+			"text": "Which of the following is NOT a key characteristic of blockchain technology?",
+			"answers": [
+				{
+					"id": "442245678982834567890030396789012345227",
+					"text": "Centralized control by a single authority"
+				},
+				{
+					"id": "442245678982834567890030396789012345228",
+					"text": "Immutability of records"
+				},
+				{
+					"id": "442245678982834567890030396789012345229",
+					"text": "Transparency of transactions"
+				},
+				{
+					"id": "442245678982834567890030396789012345230",
+					"text": "Cryptographic security"
+				}
+			]
+		}
+	]
+	"error": null
+}
+```
+
+### [POST] /api/roadmaps/:roadmap_id/quiz/answers
+
+> submit user's answers for a specific roadmap quiz
+
+```JSON
+// body received
+{
+	"answers": [
+		{
+			"roadmap_quiz_questions_id": "123456789828345678901234567890123452232",
+			"roadmap_quiz_questions_answer_id": "442245678982834567890030396789012345223"
+		},
+		{
+			"roadmap_quiz_questions_id": "123456789828345678901234567890123452233",
+			"roadmap_quiz_questions_answer_id": "442245678982834567890030396789012345227"
+		}
+	]
+}
+```
+
+### [GET] /api/roadmaps/:roadmap_id/quiz/score
+
+> get user score related to a specific roadmap quiz
+
+```JSON
+{
+	"data": {
+		"total_questions": 2,
+		"total_corrent": 2,
+		"score_percentage": 100,
+		"correct_answers": [
+			{
+				"question_id": "123456789828345678901234567890123452232",
+				"answer_id": "442245678982834567890030396789012345223",
+				"question": "What is the main purpose of blockchain?",
+				"answer": "Decentralized ledger technology"
+			}
+		],
+		"wrong_answers": [
+			{
+				"question_id": "123456789828345678901234567890123452233",
+				"answer_id": "442245678982834567890030396789012345227",
+				"question": "What is the main advantage of blockchain?",
+				"answer": "Fast transaction speed"
+			}
+		],
+	},
+	"error": null
+}
+```
+
+### [PATCH] /api/roadmaps/:roadmap_id/contents/:content_id
+
+> marks a specific content as completed/checked or not
+
+```json
+// body received
+{
+	"checked": true
+}
+```
+
 ## Example flow:
 
 1. user logs into the application:
@@ -187,6 +307,71 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id", {
 
 ```ts
 fetch("http://localhost:3000/api/roadmaps/:roadmap_id/topics/:topic_id", {
+	method: "GET",
+	headers: {
+		"Content-Type": "application/json",
+		Authorization: "Bearer {{ JWT_TOKEN }}",
+	},
+});
+```
+
+5. user marks a content as completed:
+
+```ts
+fetch("http://localhost:3000/api/roadmaps/:roadmap_id/contents/:content_id", {
+	method: "PATCH",
+	headers: {
+		"Content-Type": "application/json",
+		Authorization: "Bearer {{ JWT_TOKEN }}",
+	},
+	body: JSON.stringify({
+		checked: true,
+	}),
+});
+```
+
+6. user opens the quiz for a specific roadmap:
+
+```ts
+fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz", {
+	method: "GET",
+	headers: {
+		"Content-Type": "application/json",
+		Authorization: "Bearer {{ JWT_TOKEN }}",
+	},
+});
+```
+
+7. user submits their quiz answers:
+
+```ts
+fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz/answers", {
+	method: "POST",
+	headers: {
+		"Content-Type": "application/json",
+		Authorization: "Bearer {{ JWT_TOKEN }}",
+	},
+	body: JSON.stringify({
+		answers: [
+			{
+				roadmap_quiz_questions_id: "123456789828345678901234567890123452232",
+				roadmap_quiz_questions_answer_id:
+					"442245678982834567890030396789012345223",
+			},
+			{
+				roadmap_quiz_questions_id: "123456789828345678901234567890123452233",
+				roadmap_quiz_questions_answer_id:
+					"442245678982834567890030396789012345227",
+			},
+		],
+	}),
+});
+```
+
+8. user checks their quiz results:
+
+```ts
+fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz/score", {
 	method: "GET",
 	headers: {
 		"Content-Type": "application/json",
