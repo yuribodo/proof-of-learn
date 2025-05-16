@@ -10,6 +10,7 @@ import {
 	expertiseStepSchema,
 	preferencesStepSchema,
 } from "../schema/CreateRoadmapSchema";
+import { motion } from "framer-motion";
 
 const schema = z.object({
 	coreStep: coreStepSchema,
@@ -46,7 +47,12 @@ export default function CreateRoadmapForm() {
 	});
 
 	return (
-		<div className="self-center mt-10 rounded-md bg-zinc-900 p-5">
+		<motion.div
+			className="self-center mt-10 rounded-md bg-zinc-900 p-5"
+			initial={{ opacity: 0, y: -20 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ duration: 1 }}
+		>
 			<FormProvider {...form}>
 				<form onSubmit={handleSubmit}>
 					<Stepper
@@ -61,6 +67,6 @@ export default function CreateRoadmapForm() {
 					/>
 				</form>
 			</FormProvider>
-		</div>
+		</motion.div>
 	);
 }
