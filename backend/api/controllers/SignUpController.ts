@@ -19,7 +19,7 @@ export async function SignUpController(req: Request, res: Response) {
 		return;
 	}
 
-	const { name, email, wallet_adress, password } = data;
+	const { name, email, wallet_address, password } = data;
 
 	const emailAlreadyExists = await prismaClient.user.findUnique({
 		where: { email },
@@ -38,7 +38,7 @@ export async function SignUpController(req: Request, res: Response) {
 			name,
 			email,
 			passwordHash,
-			walletAddress: wallet_adress,
+			walletAddress: wallet_address,
 		},
 	});
 
@@ -68,7 +68,7 @@ const schema = z.object({
 		.min(3, {
 			message: 'The "name" field must have at least 3 characters',
 		}),
-	wallet_adress: z
+	wallet_address: z
 		.string({
 			message: 'The "Wallet Address" field is required',
 		})
