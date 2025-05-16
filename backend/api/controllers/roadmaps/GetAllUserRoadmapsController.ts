@@ -1,7 +1,6 @@
-import { Roadmap } from "@prisma/client";
 import { Request, Response } from "express";
-import { ApiResponse } from "../../@types/response";
 import { prismaClient } from "../../lib/prismaClient";
+import { sanitizedResponse } from "../../util/sanitizeResponse";
 
 export async function GetAllUserRoadmapsController(
 	req: Request,
@@ -10,12 +9,12 @@ export async function GetAllUserRoadmapsController(
 	const { userId } = req;
 
 	if (!userId) {
-		const unauthorizedResponse: ApiResponse<null> = {
-			data: null,
-			error: { message: "Unauthorized", status: 401 },
-		};
-
-		res.status(401).send(unauthorizedResponse);
+		res.status(401).send(
+			sanitizedResponse.error({
+				message: "Unauthorized",
+				status: 401,
+			})
+		);
 		return;
 	}
 
@@ -26,18 +25,13 @@ export async function GetAllUserRoadmapsController(
 			},
 		});
 
-		const response: ApiResponse<Roadmap[]> = {
-			data: roadmaps,
-			error: null,
-		};
-
-		res.status(200).json(response);
+		res.status(200).json(sanitizedResponse.success(roadmaps));
 	} catch {
-		const response: ApiResponse<Roadmap[]> = {
-			data: null,
-			error: { message: "Internal server error", status: 500 },
-		};
-
-		res.status(500).json(response);
+		res.status(500).json(
+			sanitizedResponse.error({
+				message: "Internal server error",
+				status: 500,
+			})
+		);
 	}
 }
