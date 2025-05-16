@@ -22,6 +22,13 @@ model User {
   @@map("users")
 }
 
+enum Theme {
+  BLOCKCHAIN
+  PROGRAMMING
+  AI
+}
+
+
 enum LearningStyle {
   VISUAL
   AUDITORY
@@ -37,7 +44,7 @@ enum KnowledgeLevel {
 model Roadmap {
   id                    String         @id @default(uuid()) @db.Uuid
   userId                String         @map("user_id") @db.Uuid
-  theme                 String
+  theme                 Theme
   learningGoal          String         @map("learning_goal")
   knowledgeLevel        KnowledgeLevel @map("knowledge_level")
   hoursPerDayCommitment Int            @map("hours_per_day_commitment")
