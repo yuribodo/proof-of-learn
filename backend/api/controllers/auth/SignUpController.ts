@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { prismaClient } from "../lib/prismaClient";
+import { prismaClient } from "../../lib/prismaClient";
 
 import bcrypt from "bcryptjs";
 import type { Request, Response } from "express";
