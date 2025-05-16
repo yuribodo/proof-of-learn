@@ -30,7 +30,7 @@ export default function CreateRoadmapForm() {
 			},
 			expertiseStep: {
 				knowledgeLevel: "",
-				timeCommitment: "",
+				timeCommitment: 1,
 			},
 			preferencesStep: {
 				learningStyle: "",
