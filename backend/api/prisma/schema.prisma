@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid()) @db.Uuid
+  email         String   @unique
+  name          String
+  passwordHash  String   @map("password_hash")
+  walletAddress String?  @unique @map("wallet_address")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  roadMaps              Roadmap[]
+  RoadmapQuizUserAnswer RoadmapQuizUserAnswer[]
+
+  @@map("users")
+}
+
+enum LearningStyle {
+  VISUAL
+  AUDITORY
+  READING_WRITING
+}
+
+enum KnowledgeLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+model Roadmap {
+  id                    String         @id @default(uuid()) @db.Uuid
+  userId                String         @map("user_id") @db.Uuid
+  theme                 String
+  learningGoal          String         @map("learning_goal")
+  knowledgeLevel        KnowledgeLevel @map("knowledge_level")
+  hoursPerDayCommitment Int            @map("hours_per_day_commitment")
+  learningStyle         LearningStyle  @map("learning_style")
+  createdAt             DateTime       @default(now()) @map("created_at")
+  updatedAt             DateTime       @updatedAt @map("updated_at")
+
+  roadmapTopics RoadmapTopic[]
+
+  user                 User                   @relation(fields: [userId], references: [id])
+  RoadmapQuizQuestions RoadmapQuizQuestions[]
+
+  @@map("roadmaps")
+}
+
+model RoadmapTopic {
+  id               String @id @default(uuid()) @db.Uuid
+  roadmapId        String @map("roadmap_id") @db.Uuid
+  topicName        String @map("topic_name")
+  topicDescription String @map("topic_description")
+  topicIndex       Int    @map("topic_index")
+
+  roadmapTopicContents RoadmapTopicContent[]
+
+  roadmap Roadmap @relation(fields: [roadmapId], references: [id])
+
+  @@map("roadmap_topics")
+}
+
+enum TopicContentType {
+  TEXT
+  VIDEO
+}
+
+model RoadmapTopicContent {
+  id             String           @id @default(uuid()) @db.Uuid
+  roadmapTopicId String           @map("roadmap_topic_id") @db.Uuid
+  name           String
+  description    String           @map("description")
+  contentType    TopicContentType @map("content_type")
+  url            String
+  checked        Boolean          @default(false)
+
+  roadmapTopic RoadmapTopic @relation(fields: [roadmapTopicId], references: [id])
+
+  @@map("roadmap_topic_contents")
+}
+
+model RoadmapQuizQuestions {
+  id        String @id @default(uuid()) @db.Uuid
+  roadmapId String @map("roadmap_id") @db.Uuid
+  text      String @map("text")
+
+  roadmap               Roadmap                 @relation(fields: [roadmapId], references: [id])
+  RoadmapQuizAnswer     RoadmapQuizAnswer[]
+  RoadmapQuizUserAnswer RoadmapQuizUserAnswer[]
+
+  @@map("roadmap_quiz_questions")
+}
+
+model RoadmapQuizAnswer {
+  id                     String  @id @default(uuid()) @db.Uuid
+  roadmapQuizQuestionsId String  @map("roadmap_quiz_questions_id") @db.Uuid
+  text                   String  @map("text")
+  is_correct             Boolean @default(false)
+
+  roadmapQuizQuestions  RoadmapQuizQuestions    @relation(fields: [roadmapQuizQuestionsId], references: [id])
+  RoadmapQuizUserAnswer RoadmapQuizUserAnswer[]
+
+  @@map("roadmap_quiz_answer")
+}
+
+model RoadmapQuizUserAnswer {
+  id                     String @id @default(uuid()) @db.Uuid
+  userId                 String @map("user_id") @db.Uuid
+  roadmapQuizQuestionsId String @map("roadmap_quiz_questions_id") @db.Uuid
+  roadmapQuizAnswerId    String @map("roadmap_quiz_questions_answer_id") @db.Uuid
+
+  roadmapQuizQuestions RoadmapQuizQuestions @relation(fields: [roadmapQuizQuestionsId], references: [id])
+  roadmapQuizAnwer     RoadmapQuizAnswer    @relation(fields: [roadmapQuizAnswerId], references: [id])
+  user                 User                 @relation(fields: [userId], references: [id])
+
+  @@map("roadmap_quiz_user_answer")
+}
