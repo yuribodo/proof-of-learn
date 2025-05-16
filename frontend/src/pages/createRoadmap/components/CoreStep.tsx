@@ -9,6 +9,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { FormData } from "./CreateRoadmapForm";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { ThemeLabels } from "@/@types/roadmap";
 
 export default function CoreStep() {
 	const form = useFormContext<FormData>();
@@ -19,13 +27,25 @@ export default function CoreStep() {
 				control={form.control}
 				name="coreStep.theme"
 				render={({ field }) => (
-					<FormItem>
+					<FormItem className="min-w-xs">
 						<FormLabel>Theme</FormLabel>
 						<FormControl>
-							<Input
-								{...field}
-								placeholder="What will be your roadmap's theme?"
-							/>
+							<Select
+								onValueChange={field.onChange}
+								value={field.value}
+								defaultValue={field.value}
+							>
+								<SelectTrigger>
+									<SelectValue placeholder="Select a learning style" />
+								</SelectTrigger>
+								<SelectContent className="bg-zinc-900 text-white">
+									{Object.entries(ThemeLabels).map(([value, label]) => (
+										<SelectItem key={value} value={value}>
+											{label}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 						</FormControl>
 						<FormMessage />
 					</FormItem>
@@ -35,7 +55,7 @@ export default function CoreStep() {
 				control={form.control}
 				name="coreStep.learningGoal"
 				render={({ field }) => (
-					<FormItem>
+					<FormItem className="max-w-xs">
 						<FormLabel>Learning Goal</FormLabel>
 						<FormControl>
 							<Input {...field} placeholder="What is your learning goal?" />
