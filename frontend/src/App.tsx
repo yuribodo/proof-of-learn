@@ -11,6 +11,11 @@ export default function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<HomePage />} />
+				<Route path="/login" element={<LoginPage />} />
+				<Route path="/register" element={<RegisterPage />} />
+				<Route path="/roadmaps" element={<RoadmapsPage />} />
+				<Route path="/roadmap/:id" element={<RoadmapDetailPage />} />
+				<Route path="/create-roadmap/" element={<CreateRoadmap />} />
 			</Routes>
 		</BrowserRouter>
 	);
