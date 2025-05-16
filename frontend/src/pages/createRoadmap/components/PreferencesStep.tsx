@@ -10,15 +10,22 @@ import {
 	StepperFooter,
 	StepperPreviousButton,
 } from "./Stepper";
-import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 import type { FormData } from "./CreateRoadmapForm";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { LearningStyleLabels } from "@/@types/roadmap";
 
 export default function PreferencesStep() {
 	const form = useFormContext<FormData>();
 
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col gap-4">
 			<FormField
 				control={form.control}
 				name="preferencesStep.learningStyle"
@@ -26,10 +33,22 @@ export default function PreferencesStep() {
 					<FormItem>
 						<FormLabel>Preferred Learning Style</FormLabel>
 						<FormControl>
-							<Input
-								{...field}
-								placeholder="What is your preferred learning style?"
-							/>
+							<Select
+								onValueChange={field.onChange}
+								value={field.value}
+								defaultValue={field.value}
+							>
+								<SelectTrigger className="min-w-xs">
+									<SelectValue placeholder="Select a learning style" />
+								</SelectTrigger>
+								<SelectContent className="bg-zinc-900 text-white">
+									{Object.entries(LearningStyleLabels).map(([value, label]) => (
+										<SelectItem key={value} value={value}>
+											{label}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 						</FormControl>
 						<FormMessage />
 					</FormItem>
