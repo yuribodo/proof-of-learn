@@ -12,10 +12,35 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { authService } from "@/services/authService";
+import { useMutation } from "@tanstack/react-query";
+import type { LoginDTO } from "@/@types/auth";
+import { useNavigate } from "react-router-dom";
 
 type FormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
+	const navigate = useNavigate();
+
+	const { mutate, isPending } = useMutation({
+		mutationFn: (data: LoginDTO) => authService.login(data),
+		onSuccess: (data) => {
+			const token = data.accessToken;
+
+			if (token) {
+				localStorage.setItem("addressToken", token);
+				console.log("Successful to sign in");
+			} else {
+				console.error("Authentication Error");
+			}
+
+			navigate("/roadmaps");
+		},
+		onError: (error) => {
+			console.error("Failed to sign in", error);
+		},
+	});
+
 	const form = useForm<FormData>({
 		defaultValues: {
 			email: "",
@@ -24,7 +49,9 @@ export default function LoginForm() {
 		resolver: zodResolver(loginSchema),
 	});
 
-	const handleSubmit = form.handleSubmit((formData) => console.log(formData));
+	const handleSubmit = form.handleSubmit((formData) => {
+		mutate(formData);
+	});
 
 	return (
 		<Form {...form}>
@@ -75,6 +102,7 @@ export default function LoginForm() {
 					type="submit"
 					size="lg"
 					className="w-full bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white cursor-pointer transform transition-transform duration-200 hover:scale-105"
+					disabled={isPending}
 				>
 					Sign In
 				</Button>
