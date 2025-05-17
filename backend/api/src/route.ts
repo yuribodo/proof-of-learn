@@ -87,6 +87,6 @@ router.get(
 	GetAuthenticatedUserController,
 )
 
-router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
+
 
 export { router };
