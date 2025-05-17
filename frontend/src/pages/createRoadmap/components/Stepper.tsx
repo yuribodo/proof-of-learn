@@ -66,13 +66,21 @@ export function StepperPreviousButton() {
 	);
 }
 
-export function StepperNextButton() {
+export function StepperNextButton({
+	size = "sm",
+	type = "button",
+	preventDefault = false,
+}: Omit<React.ComponentPropsWithoutRef<typeof Button>, "onClick"> & {
+	preventDefault?: boolean;
+}) {
 	const { nextStep } = useStepper();
+
+	const nextStepHandler = !preventDefault ? nextStep : undefined;
 	return (
 		<Button
-			size="sm"
-			type="button"
-			onClick={nextStep}
+			size={size}
+			type={type}
+			onClick={nextStepHandler}
 			className="bg-[#6D4AFF] hover:bg-transparent hover:scale-110 hover:border-1 hover:border-[#6D4AFF] "
 		>
 			Próximo
