@@ -5,6 +5,7 @@ import { GetAllUserRoadmapsController } from "../controllers/roadmaps/GetAllUser
 import { GetRoadmapByIdController } from "../controllers/roadmaps/GetRoadmapByIdController";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { PostRoadmapController } from "../controllers/roadmaps/PostRoadmap";
+import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
 
 
 const router = Router();
@@ -19,9 +20,14 @@ router.get(
 	GetRoadmapByIdController
 );
 router.post(
-  "/roadmaps",
-  AuthenticationMiddleware,
-  PostRoadmapController
+	"/roadmaps",
+	AuthenticationMiddleware,
+	PostRoadmapController
+);
+router.delete(
+	"/roadmaps/:roadmapId",
+	AuthenticationMiddleware,
+	DeleteRoadmap
 );
 
 
