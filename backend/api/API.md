@@ -76,7 +76,7 @@ type Response<T> = {
 }
 ```
 
-### [GET] /api/roadmaps/:roadmap_id
+### [GET] /api/roadmaps/:roadmapId
 
 > returns one specific roadmap, including an array of topics (will be able to mount the roadmap nodes, for example)
 
@@ -108,7 +108,7 @@ type Response<T> = {
 }
 ```
 
-### [GET] /api/roadmaps/:roadmap_id/topics/:topic_id
+### [GET] /api/roadmaps/:roadmapId/topics/:topicId
 
 > returns all informations/contents of one specific roadmap topic
 
@@ -143,7 +143,7 @@ type Response<T> = {
 }
 ```
 
-### [GET] /api/roadmaps/:roadmap_id/quiz
+### [GET] /api/roadmaps/:roadmapId/quiz
 
 > returns quiz questions and answers for a specific roadmap
 
@@ -201,50 +201,70 @@ type Response<T> = {
 }
 ```
 
-### [POST] /api/roadmaps/:roadmap_id/quiz/answers
+### [POST] /api/roadmaps/:roadmapId/quiz/answers
 
 > submit user's answers for a specific roadmap quiz
 
 ```json
 // body received
+// the number of answers should be equal the number of quiz questions
 {
 	"answers": [
 		{
-			"roadmapQuizQuestionsId": "123456789828345678901234567890123452232",
-			"roadmapQuizQuestionsAnswerId": "442245678982834567890030396789012345223"
+			"questionId": "123456789828345678901234567890123452232",
+			"answerId": "442245678982834567890030396789012345223"
 		},
 		{
-			"roadmapQuizQuestionsId": "123456789828345678901234567890123452233",
-			"roadmapQuizQuestionsAnswerId": "442245678982834567890030396789012345227"
+			"questionId": "123456789828345678901234567890123452233",
+			"answerId": "442245678982834567890030396789012345227"
 		}
 	]
 }
 ```
 
-### [GET] /api/roadmaps/:roadmap_id/quiz/score
+### [GET] /api/roadmaps/:roadmapId/quiz/score
 
 > get user score related to a specific roadmap quiz
 
 ```json
 {
 	"data": {
-		"totalQuestions": 2,
-		"totalCorrect": 2,
-		"scorePercentage": 100,
+		"totalQuestions": 5,
+		"totalCorrect": 3,
+		"totalWrong": 2,
+		"scorePercentage": 60,
 		"correctAnswers": [
 			{
-				"questionId": "123456789828345678901234567890123452232",
-				"answerId": "442245678982834567890030396789012345223",
-				"question": "What is the main purpose of blockchain?",
-				"answer": "Decentralized ledger technology"
+				"questionId": "572f33f1-ec52-48f8-ba47-051aba9b4413",
+				"answerId": "8a648f5a-7ad1-43db-a9d9-0d96fb69c538",
+				"question": "What is the correct HTML element for the largest heading?",
+				"answer": "<h1>"
+			},
+			{
+				"questionId": "b52a078c-4d6a-483f-8baf-92418be6391a",
+				"answerId": "7324647e-0392-4f4f-b9dc-83a2a104766d",
+				"question": "Which of the following is not a JavaScript data type?",
+				"answer": "Character"
+			},
+			{
+				"questionId": "2f82f626-0e12-45d5-b75d-40b429511dc2",
+				"answerId": "b3ef1159-75a4-429d-a5c3-006dc1148288",
+				"question": "What is the correct way to declare a variable in JavaScript?",
+				"answer": "let x = 5;"
 			}
 		],
 		"wrongAnswers": [
 			{
-				"questionId": "123456789828345678901234567890123452233",
-				"answerId": "442245678982834567890030396789012345227",
-				"question": "What is the main advantage of blockchain?",
-				"answer": "Fast transaction speed"
+				"questionId": "86c0f131-a2ba-4276-a533-f7003ca2ea3b",
+				"answerId": "535e8a16-a23e-41a7-95ac-7e6bf244626a",
+				"question": "Which CSS property is used to change the text color of an element?",
+				"answer": "text-color"
+			},
+			{
+				"questionId": "c58a4f02-9b10-4406-89ef-9f33f7db9321",
+				"answerId": "6bd9e264-83aa-4030-9a60-274714dc38da",
+				"question": "What is a React Hook?",
+				"answer": "A way to connect to external APIs"
 			}
 		]
 	},
@@ -252,7 +272,7 @@ type Response<T> = {
 }
 ```
 
-### [PATCH] /api/roadmaps/:roadmap_id/contents/:content_id
+### [PATCH] /api/roadmaps/:roadmapId/contents/:contentId
 
 > marks a specific content as completed/checked or not
 
@@ -295,7 +315,7 @@ fetch("http://localhost:3000/api/roadmaps", {
 3. user clicks on one of their roadmaps:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId", {
 	method: "GET",
 	headers: {
 		"Content-Type": "application/json",
@@ -307,7 +327,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id", {
 4. user clicks on a specific topic in their roadmap:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/topics/:topic_id", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/topics/:topicId", {
 	method: "GET",
 	headers: {
 		"Content-Type": "application/json",
@@ -319,7 +339,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id/topics/:topic_id", {
 5. user marks a content as completed:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/contents/:content_id", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/contents/:contentId", {
 	method: "PATCH",
 	headers: {
 		"Content-Type": "application/json",
@@ -334,7 +354,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id/contents/:content_id", {
 6. user opens the quiz for a specific roadmap:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/quiz", {
 	method: "GET",
 	headers: {
 		"Content-Type": "application/json",
@@ -346,7 +366,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz", {
 7. user submits their quiz answers:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz/answers", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/quiz/answers", {
 	method: "POST",
 	headers: {
 		"Content-Type": "application/json",
@@ -372,7 +392,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz/answers", {
 8. user checks their quiz results:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz/score", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/quiz/score", {
 	method: "GET",
 	headers: {
 		"Content-Type": "application/json",

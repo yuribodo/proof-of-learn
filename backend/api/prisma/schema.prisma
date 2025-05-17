@@ -53,7 +53,7 @@ model Roadmap {
 
   roadmapTopics RoadmapTopic[]
 
-  user                 User                   @relation(fields: [userId], references: [id])
+  user                 User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
   RoadmapQuizQuestions RoadmapQuizQuestions[]
 
   @@map("roadmaps")
@@ -110,7 +110,7 @@ model RoadmapQuizAnswer {
   text                   String  @map("text")
   is_correct             Boolean @default(false)
 
-  roadmapQuizQuestions  RoadmapQuizQuestions    @relation(fields: [roadmapQuizQuestionsId], references: [id])
+  roadmapQuizQuestions  RoadmapQuizQuestions    @relation(fields: [roadmapQuizQuestionsId], references: [id], onDelete: Cascade)
   RoadmapQuizUserAnswer RoadmapQuizUserAnswer[]
 
   @@map("roadmap_quiz_answer")
@@ -122,9 +122,9 @@ model RoadmapQuizUserAnswer {
   roadmapQuizQuestionsId String @map("roadmap_quiz_questions_id") @db.Uuid
   roadmapQuizAnswerId    String @map("roadmap_quiz_questions_answer_id") @db.Uuid
 
-  roadmapQuizQuestions RoadmapQuizQuestions @relation(fields: [roadmapQuizQuestionsId], references: [id])
-  roadmapQuizAnwer     RoadmapQuizAnswer    @relation(fields: [roadmapQuizAnswerId], references: [id])
-  user                 User                 @relation(fields: [userId], references: [id])
+  roadmapQuizQuestions RoadmapQuizQuestions @relation(fields: [roadmapQuizQuestionsId], references: [id], onDelete: Cascade)
+  roadmapQuizAnwer     RoadmapQuizAnswer    @relation(fields: [roadmapQuizAnswerId], references: [id], onDelete: Cascade)
+  user                 User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("roadmap_quiz_user_answer")
 }

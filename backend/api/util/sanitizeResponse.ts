@@ -1,6 +1,8 @@
+import type { ZodIssue } from "zod";
+
 export type ApiResponse<T> = {
 	data: T | null;
-	error: { message: string; status?: number } | null;
+	error: { message: string | ZodIssue[]; status?: number } | null;
 };
 
 function success<T>(data: T): ApiResponse<T> {

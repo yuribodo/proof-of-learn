@@ -1,11 +1,11 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { ApiResponse } from "../util/sanitizeResponse";
+import type { ApiResponse } from "../util/sanitizeResponse";
 
 export async function AuthenticationMiddleware(
 	req: Request,
 	res: Response,
-	next: NextFunction
+	next: NextFunction,
 ) {
 	const unauthorizedResponse: ApiResponse<null> = {
 		data: null,
@@ -27,7 +27,7 @@ export async function AuthenticationMiddleware(
 	try {
 		const payload = jwt.verify(
 			token,
-			process.env.JWT_SECRET as string
+			process.env.JWT_SECRET as string,
 		) as jwt.JwtPayload;
 
 		req.userId = payload.id;
