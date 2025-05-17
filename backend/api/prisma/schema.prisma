@@ -28,7 +28,6 @@ enum Theme {
   AI
 }
 
-
 enum LearningStyle {
   VISUAL
   AUDITORY
@@ -69,7 +68,7 @@ model RoadmapTopic {
 
   roadmapTopicContents RoadmapTopicContent[]
 
-  roadmap Roadmap @relation(fields: [roadmapId], references: [id])
+  roadmap Roadmap @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
 
   @@map("roadmap_topics")
 }
@@ -88,7 +87,7 @@ model RoadmapTopicContent {
   url            String
   checked        Boolean          @default(false)
 
-  roadmapTopic RoadmapTopic @relation(fields: [roadmapTopicId], references: [id])
+  roadmapTopic RoadmapTopic @relation(fields: [roadmapTopicId], references: [id], onDelete: Cascade)
 
   @@map("roadmap_topic_contents")
 }
@@ -98,7 +97,7 @@ model RoadmapQuizQuestions {
   roadmapId String @map("roadmap_id") @db.Uuid
   text      String @map("text")
 
-  roadmap               Roadmap                 @relation(fields: [roadmapId], references: [id])
+  roadmap               Roadmap                 @relation(fields: [roadmapId], references: [id], onDelete: Cascade)
   RoadmapQuizAnswer     RoadmapQuizAnswer[]
   RoadmapQuizUserAnswer RoadmapQuizUserAnswer[]
 
