@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { GetAuthenticatedUserController } from "../controllers/auth/GetMe";
+import { SaveWalletAddressController } from "../controllers/auth/SaveWalletAdress";
 import { SignInController } from "../controllers/auth/SignInController";
 import { SignUpController } from "../controllers/auth/SignUpController";
 import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
@@ -11,8 +13,6 @@ import { PostQuizAnswersController } from "../controllers/roadmaps/quiz/PostQuiz
 import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
 import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
-import { SaveWalletAddressController } from "../controllers/auth/SaveWalletAdress";
-import { GetAuthenticatedUserController } from "../controllers/auth/GeMe";
 
 const router = Router();
 
@@ -67,10 +67,6 @@ router.post(
 	SaveWalletAddressController,
 );
 
-router.get(
-	"/authenticated/GetMe",
-	AuthenticationMiddleware,
-	GetAuthenticatedUserController,
-)
+router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
 
 export { router };
