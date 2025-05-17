@@ -16,11 +16,15 @@ import { authService } from "@/services/authService";
 import { useMutation } from "@tanstack/react-query";
 import type { LoginDTO } from "@/@types/auth";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "@/contexts/auth/AuthProvider";
 
 type FormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
 	const navigate = useNavigate();
+
+	const { signin } = useContext(AuthContext);
 
 	const { mutate, isPending } = useMutation({
 		mutationFn: (data: LoginDTO) => authService.login(data),
@@ -28,7 +32,7 @@ export default function LoginForm() {
 			const token = data.accessToken;
 
 			if (token) {
-				localStorage.setItem("addressToken", token);
+				signin(token);
 				console.log("Successful to sign in");
 			} else {
 				console.error("Authentication Error");
