@@ -1,4 +1,5 @@
 import {
+	Form,
 	FormControl,
 	FormField,
 	FormItem,
@@ -10,8 +11,6 @@ import {
 	StepperFooter,
 	StepperPreviousButton,
 } from "./Stepper";
-import { useFormContext } from "react-hook-form";
-import type { FormData } from "./CreateRoadmapForm";
 import {
 	Select,
 	SelectContent,
@@ -20,44 +19,73 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { LearningStyleLabels } from "@/@types/roadmap";
+import type { z } from "zod";
+import { preferencesStepSchema } from "../schema/CreateRoadmapSchema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRoadmapForm } from "@/stores/roadmapStores";
+import { useStepper } from "@/hooks/useStepper";
+
+type FormData = z.infer<typeof preferencesStepSchema>;
 
 export default function PreferencesStep() {
-	const form = useFormContext<FormData>();
+	const { roadmapForm, setRoadmapForm } = useRoadmapForm();
+
+	const form = useForm<FormData>({
+		defaultValues: {
+			learningStyle: roadmapForm.learningStyle ?? undefined,
+		},
+		resolver: zodResolver(preferencesStepSchema),
+	});
+
+	const { nextStep } = useStepper();
+
+	const handleSubmit = form.handleSubmit((formData) => {
+		setRoadmapForm({
+			learningStyle: formData.learningStyle,
+		});
+		console.log(roadmapForm);
+		nextStep();
+	});
 
 	return (
-		<div className="flex flex-col gap-4">
-			<FormField
-				control={form.control}
-				name="preferencesStep.learningStyle"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>Preferred Learning Style</FormLabel>
-						<FormControl>
-							<Select
-								onValueChange={field.onChange}
-								value={field.value}
-								defaultValue={field.value}
-							>
-								<SelectTrigger className="min-w-xs">
-									<SelectValue placeholder="Select a learning style" />
-								</SelectTrigger>
-								<SelectContent className="bg-zinc-900 text-white">
-									{Object.entries(LearningStyleLabels).map(([value, label]) => (
-										<SelectItem key={value} value={value}>
-											{label}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						</FormControl>
-						<FormMessage />
-					</FormItem>
-				)}
-			/>
-			<StepperFooter>
-				<StepperPreviousButton />
-				<StepperFinishButton />
-			</StepperFooter>
-		</div>
+		<Form {...form}>
+			<form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+				<FormField
+					control={form.control}
+					name="learningStyle"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Preferred Learning Style</FormLabel>
+							<FormControl>
+								<Select
+									onValueChange={field.onChange}
+									value={form.watch("learningStyle") ?? ""}
+									defaultValue={field.value}
+								>
+									<SelectTrigger className="min-w-xs">
+										<SelectValue placeholder="Select a learning style" />
+									</SelectTrigger>
+									<SelectContent className="bg-zinc-900 text-white">
+										{Object.entries(LearningStyleLabels).map(
+											([value, label]) => (
+												<SelectItem key={value} value={value}>
+													{label}
+												</SelectItem>
+											),
+										)}
+									</SelectContent>
+								</Select>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<StepperFooter>
+					<StepperPreviousButton />
+					<StepperFinishButton />
+				</StepperFooter>
+			</form>
+		</Form>
 	);
 }
