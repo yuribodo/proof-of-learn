@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { SignInController } from "../controllers/auth/SignInController";
 import { SignUpController } from "../controllers/auth/SignUpController";
+import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
 import { GetAllUserRoadmapsController } from "../controllers/roadmaps/GetAllUserRoadmaps";
 import { GetRoadmapByIdController } from "../controllers/roadmaps/GetRoadmapById";
-import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
-import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { PostRoadmapController } from "../controllers/roadmaps/PostRoadmap";
-import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
 import { GetRoadmapQuizzesController } from "../controllers/roadmaps/quiz/GetQuizAndAnswerFromRoadmap";
-
+import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
+import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
+import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 
 const router = Router();
 
@@ -23,17 +23,8 @@ router.get(
 	AuthenticationMiddleware,
 	GetRoadmapByIdController
 );
-router.post(
-	"/roadmaps",
-	AuthenticationMiddleware,
-	PostRoadmapController
-);
-router.delete(
-	"/roadmaps/:roadmapId",
-	AuthenticationMiddleware,
-	DeleteRoadmap
-);
-
+router.post("/roadmaps", AuthenticationMiddleware, PostRoadmapController);
+router.delete("/roadmaps/:roadmapId", AuthenticationMiddleware, DeleteRoadmap);
 
 // roadmap topic
 router.get(
@@ -41,10 +32,19 @@ router.get(
 	AuthenticationMiddleware,
 	GetTopicByIdController
 );
+
+// roadmap quiz
 router.get(
 	"/roadmaps/:roadmapId/quiz/answers",
 	AuthenticationMiddleware,
 	GetRoadmapQuizzesController
+);
+
+//Update checked of a specific contenct to true
+router.patch(
+	"/roadmaps/:roadmapId/contents/:contentId",
+	AuthenticationMiddleware,
+	UpdateContentCheckedController
 );
 
 export { router };

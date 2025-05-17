@@ -76,7 +76,7 @@ type Response<T> = {
 }
 ```
 
-### [GET] /api/roadmaps/:roadmap_id
+### [GET] /api/roadmaps/:roadmapId
 
 > returns one specific roadmap, including an array of topics (will be able to mount the roadmap nodes, for example)
 
@@ -108,7 +108,7 @@ type Response<T> = {
 }
 ```
 
-### [GET] /api/roadmaps/:roadmap_id/topics/:topic_id
+### [GET] /api/roadmaps/:roadmapId/topics/:topicId
 
 > returns all informations/contents of one specific roadmap topic
 
@@ -143,7 +143,7 @@ type Response<T> = {
 }
 ```
 
-### [GET] /api/roadmaps/:roadmap_id/quiz
+### [GET] /api/roadmaps/:roadmapId/quiz
 
 > returns quiz questions and answers for a specific roadmap
 
@@ -201,7 +201,7 @@ type Response<T> = {
 }
 ```
 
-### [POST] /api/roadmaps/:roadmap_id/quiz/answers
+### [POST] /api/roadmaps/:roadmapId/quiz/answers
 
 > submit user's answers for a specific roadmap quiz
 
@@ -221,7 +221,7 @@ type Response<T> = {
 }
 ```
 
-### [GET] /api/roadmaps/:roadmap_id/quiz/score
+### [GET] /api/roadmaps/:roadmapId/quiz/score
 
 > get user score related to a specific roadmap quiz
 
@@ -252,7 +252,7 @@ type Response<T> = {
 }
 ```
 
-### [PATCH] /api/roadmaps/:roadmap_id/contents/:content_id
+### [PATCH] /api/roadmaps/:roadmapId/contents/:contentId
 
 > marks a specific content as completed/checked or not
 
@@ -295,7 +295,7 @@ fetch("http://localhost:3000/api/roadmaps", {
 3. user clicks on one of their roadmaps:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId", {
 	method: "GET",
 	headers: {
 		"Content-Type": "application/json",
@@ -307,7 +307,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id", {
 4. user clicks on a specific topic in their roadmap:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/topics/:topic_id", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/topics/:topicId", {
 	method: "GET",
 	headers: {
 		"Content-Type": "application/json",
@@ -319,7 +319,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id/topics/:topic_id", {
 5. user marks a content as completed:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/contents/:content_id", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/contents/:contentId", {
 	method: "PATCH",
 	headers: {
 		"Content-Type": "application/json",
@@ -334,7 +334,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id/contents/:content_id", {
 6. user opens the quiz for a specific roadmap:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/quiz", {
 	method: "GET",
 	headers: {
 		"Content-Type": "application/json",
@@ -346,7 +346,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz", {
 7. user submits their quiz answers:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz/answers", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/quiz/answers", {
 	method: "POST",
 	headers: {
 		"Content-Type": "application/json",
@@ -372,7 +372,7 @@ fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz/answers", {
 8. user checks their quiz results:
 
 ```ts
-fetch("http://localhost:3000/api/roadmaps/:roadmap_id/quiz/score", {
+fetch("http://localhost:3000/api/roadmaps/:roadmapId/quiz/score", {
 	method: "GET",
 	headers: {
 		"Content-Type": "application/json",
