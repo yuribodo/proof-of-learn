@@ -68,7 +68,5 @@ const schema = z.object({
 		.min(3, {
 			message: 'The "name" field must have at least 3 characters',
 		}),
-	wallet_address: z
-		.string()
-		.optional(),
+	wallet_address: z.string().optional(),
 });
