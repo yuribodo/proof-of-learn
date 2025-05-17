@@ -35,7 +35,7 @@ export function RegisterPage() {
 							id="name"
 							value={name}
 							onChange={(e) => setName(e.target.value)}
-							placeholder="Seu nome"
+							placeholder="Your name"
 							className="w-full bg-[#1E1E24] text-[#E0E0E0] placeholder-[#E0E0E0]/60 border border-[rgba(255,255,255,0.1)] rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[#6D4AFF]"
 						/>
 					</div>
@@ -48,7 +48,7 @@ export function RegisterPage() {
 							id="email"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							placeholder="seu@email"
+							placeholder="your@email"
 							className="w-full bg-[#1E1E24] text-[#E0E0E0] placeholder-[#E0E0E0]/60 border border-[rgba(255,255,255,0.1)] rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-[#6D4AFF]"
 						/>
 					</div>

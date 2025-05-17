@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HomePage } from "@/pages/HomePage";
-import CreateRoadmap from "./pages/createRoadmap";
+import CreateRoadmap from "./pages/CreateRoadmap";
 import { LoginPage } from "@/pages/LoginPage";
 import { RegisterPage } from "@/pages/RegisterPage";
 import { RoadmapsPage } from "@/pages/RoadmapsPage";

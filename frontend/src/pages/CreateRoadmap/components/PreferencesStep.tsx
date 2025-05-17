@@ -18,13 +18,14 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { LearningStyleLabels } from "@/@types/roadmap";
+import { LearningStyleLabels, type RoadmapFormDTO } from "@/@types/roadmap";
 import type { z } from "zod";
 import { preferencesStepSchema } from "../schema/CreateRoadmapSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRoadmapForm } from "@/stores/roadmapStores";
-import { useStepper } from "@/hooks/useStepper";
+import { useMutation } from "@tanstack/react-query";
+import { roadmapService } from "@/services/roadmapService";
 
 type FormData = z.infer<typeof preferencesStepSchema>;
 
@@ -38,14 +39,21 @@ export default function PreferencesStep() {
 		resolver: zodResolver(preferencesStepSchema),
 	});
 
-	const { nextStep } = useStepper();
+	const { mutate, isPending, isSuccess } = useMutation({
+		mutationFn: (data: RoadmapFormDTO) => {
+			return roadmapService.createRoadmap(data);
+		},
+	});
 
 	const handleSubmit = form.handleSubmit((formData) => {
 		setRoadmapForm({
 			learningStyle: formData.learningStyle,
 		});
-		console.log(roadmapForm);
-		nextStep();
+		const updatedForm = {
+			...roadmapForm,
+			learningStyle: formData.learningStyle,
+		};
+		mutate(updatedForm as RoadmapFormDTO);
 	});
 
 	return (
