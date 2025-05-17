@@ -1,15 +1,21 @@
 import { Request, Response } from "express";
 import { z } from "zod";
-import { sanitizedResponse } from "../../../util/sanitizeResponse";
 import { prismaClient } from "../../../lib/prismaClient";
-
+import { sanitizedResponse } from "../../../util/sanitizeResponse";
 
 const ParamsSchema = z.object({
-	roadmap_id: z.string().uuid({ message: "Invalid roadmap_id" }),
-	content_id: z.string().uuid({ message: "Invalid content_id" }),
+	roadmapId: z.string().uuid({ message: "Invalid roadmap_id" }),
+	contentId: z.string().uuid({ message: "Invalid content_id" }),
 });
 
-export async function UpdateContentCheckedController(req: Request, res: Response) {
+const BodySchema = z.object({
+	checked: z.boolean(),
+});
+
+export async function UpdateContentCheckedController(
+	req: Request,
+	res: Response
+) {
 	const userId = req.userId;
 	if (!userId) {
 		res.status(401).json(
@@ -25,6 +31,7 @@ export async function UpdateContentCheckedController(req: Request, res: Response
 	if (!parsedParams.success) {
 		res.status(400).json(
 			sanitizedResponse.error({
+				// TODO: return zod issues
 				message: JSON.stringify(parsedParams.error.format()),
 				status: 400,
 			})
@@ -32,11 +39,24 @@ export async function UpdateContentCheckedController(req: Request, res: Response
 		return;
 	}
 
-	const { roadmap_id, content_id } = parsedParams.data;
+	const parsedBody = BodySchema.safeParse(req.body);
+	if (!parsedBody.success) {
+		res.status(400).json(
+			sanitizedResponse.error({
+				// TODO: return zod issues
+				message: JSON.stringify(parsedBody.error.format()),
+				status: 400,
+			})
+		);
+		return;
+	}
+
+	const { roadmapId, contentId } = parsedParams.data;
+	const { checked } = parsedBody.data;
 
 	const roadmap = await prismaClient.roadmap.findFirst({
 		where: {
-			id: roadmap_id,
+			id: roadmapId,
 			userId,
 		},
 	});
@@ -53,9 +73,9 @@ export async function UpdateContentCheckedController(req: Request, res: Response
 
 	const content = await prismaClient.roadmapTopicContent.findFirst({
 		where: {
-			id: content_id,
+			id: contentId,
 			roadmapTopic: {
-				roadmapId: roadmap_id,
+				roadmapId: roadmapId,
 			},
 		},
 	});
@@ -71,11 +91,13 @@ export async function UpdateContentCheckedController(req: Request, res: Response
 	}
 
 	await prismaClient.roadmapTopicContent.update({
-		where: { id: content_id },
-		data: { checked: true },
+		where: { id: contentId },
+		data: { checked },
 	});
 
-	res.status(200).json(
-		sanitizedResponse.success({ message: "Content marked as checked" })
-	);
+	const responseText = checked
+		? "Content marked as checked"
+		: "Content marked as unchecked";
+
+	res.status(200).json(sanitizedResponse.success({ message: responseText }));
 }
