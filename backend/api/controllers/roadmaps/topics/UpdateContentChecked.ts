@@ -31,8 +31,7 @@ export async function UpdateContentCheckedController(
 	if (!parsedParams.success) {
 		res.status(400).json(
 			sanitizedResponse.error({
-				// TODO: return zod issues
-				message: JSON.stringify(parsedParams.error.format()),
+				message: parsedParams.error.issues,
 				status: 400,
 			})
 		);
@@ -43,8 +42,7 @@ export async function UpdateContentCheckedController(
 	if (!parsedBody.success) {
 		res.status(400).json(
 			sanitizedResponse.error({
-				// TODO: return zod issues
-				message: JSON.stringify(parsedBody.error.format()),
+				message: parsedBody.error.issues,
 				status: 400,
 			})
 		);
