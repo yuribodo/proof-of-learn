@@ -6,9 +6,10 @@ import { GetAllUserRoadmapsController } from "../controllers/roadmaps/GetAllUser
 import { GetRoadmapByIdController } from "../controllers/roadmaps/GetRoadmapById";
 import { PostRoadmapController } from "../controllers/roadmaps/PostRoadmap";
 import { GetRoadmapQuizzesController } from "../controllers/roadmaps/quiz/GetQuizAndAnswerFromRoadmap";
+import { PostQuizAnswersController } from "../controllers/roadmaps/quiz/PostQuizAnswers";
 import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
-import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
+import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 
 const router = Router();
 
@@ -35,9 +36,14 @@ router.get(
 
 // roadmap quiz
 router.get(
-	"/roadmaps/:roadmapId/quiz/answers",
+	"/roadmaps/:roadmapId/quiz",
 	AuthenticationMiddleware,
 	GetRoadmapQuizzesController
+);
+router.post(
+	"/roadmaps/:roadmapId/quiz/answers",
+	AuthenticationMiddleware,
+	PostQuizAnswersController
 );
 
 //Update checked of a specific contenct to true
