@@ -47,7 +47,6 @@ export default function StepExpertise() {
 			knowledgeLevel: formData.knowledgeLevel,
 			timeCommitment: formData.timeCommitment,
 		});
-		console.log(roadmapForm);
 		nextStep();
 	});
 

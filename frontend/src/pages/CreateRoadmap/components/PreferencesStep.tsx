@@ -39,7 +39,7 @@ export default function PreferencesStep() {
 		resolver: zodResolver(preferencesStepSchema),
 	});
 
-	const { mutate, isPending, isSuccess } = useMutation({
+	const { mutate } = useMutation({
 		mutationFn: (data: RoadmapFormDTO) => {
 			return roadmapService.createRoadmap(data);
 		},

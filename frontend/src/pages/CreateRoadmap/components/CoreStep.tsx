@@ -43,7 +43,6 @@ export default function CoreStep() {
 			theme: formData.theme,
 			learningGoal: formData.learningGoal,
 		});
-		console.log(roadmapForm);
 		nextStep();
 	});
 
