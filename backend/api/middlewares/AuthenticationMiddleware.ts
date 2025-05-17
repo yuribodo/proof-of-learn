@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { ApiResponse } from "../@types/response";
+import { ApiResponse } from "../util/sanitizeResponse";
 
 export async function AuthenticationMiddleware(
 	req: Request,
