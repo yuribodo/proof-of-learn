@@ -8,6 +8,7 @@ import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddlewar
 import { PostRoadmapController } from "../controllers/roadmaps/PostRoadmap";
 import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
 import { GetRoadmapQuizzesController } from "../controllers/roadmaps/quiz/GetQuizAndAnswerFromRoadmap";
+import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 
 
 const router = Router();
@@ -41,10 +42,17 @@ router.get(
 	AuthenticationMiddleware,
 	GetTopicByIdController
 );
+/* Get Quizz and Answers of a specific project */
 router.get(
 	"/roadmaps/:roadmapId/quiz/answers",
 	AuthenticationMiddleware,
 	GetRoadmapQuizzesController
+);
+//Update checked of a specific contenct to true
+router.patch(
+	"/roadmaps/:roadmap_id/contents/:content_id",
+	AuthenticationMiddleware,
+	UpdateContentCheckedController
 );
 
 export { router };
