@@ -30,11 +30,9 @@ export async function DeleteRoadmap(req: Request, res: Response) {
 		where: { id: roadmapId },
 	});
 
-	res
-		.status(200)
-		.json(
-			sanitizedResponse.success({
-				message: "Roadmap and related data deleted",
-			}),
-		);
+	res.status(200).json(
+		sanitizedResponse.success({
+			message: "Roadmap and related data deleted",
+		}),
+	);
 }
