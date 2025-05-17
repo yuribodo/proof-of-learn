@@ -71,6 +71,7 @@ router.patch(
 	UpdateContentCheckedController,
 );
 
+//Save user wallet adress
 router.post(
 	"/save-wallet",
 	AuthenticationMiddleware,
