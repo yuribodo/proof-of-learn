@@ -30,3 +30,5 @@ export default function App() {
 			</BrowserRouter>
 		</AuthProvider>
 
+  )
+}
