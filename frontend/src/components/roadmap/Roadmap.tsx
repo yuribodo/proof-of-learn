@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-interface RoadmapTopic {
+export interface RoadmapTopic {
   id: string;
   title: string;
   description: string;
@@ -16,24 +16,31 @@ interface RoadmapTopic {
   subtopics?: RoadmapTopic[];
 }
 
-interface RoadmapResource {
+export interface RoadmapResource {
   id: string;
   title: string;
   type: "article" | "video" | "course" | "documentation";
   url: string;
 }
 
-interface RoadmapCategory {
+export interface RoadmapCategory {
   id: string;
   title: string;
   description: string;
   topics: RoadmapTopic[];
 }
 
-interface RoadmapProps {
+export type RoadmapDataJSON = {
   title: string;
   description: string;
   categories: RoadmapCategory[];
+};
+
+export interface RoadmapProps {
+  data?: RoadmapDataJSON | string;
+  title?: string;
+  description?: string;
+  categories?: RoadmapCategory[];
   className?: string;
 }
 
@@ -50,7 +57,7 @@ const resourceIcons = {
   "documentation": <FileText className="h-4 w-4 text-white" />
 };
 
-const RoadmapResourceItem = ({ resource }: { resource: RoadmapResource }) => {
+export const RoadmapResourceItem = ({ resource }: { resource: RoadmapResource }) => {
   return (
     <TooltipProvider>
       <Tooltip>
@@ -209,21 +216,28 @@ const RoadmapCategory = ({ category }: { category: RoadmapCategory }) => {
     </div>
 )};
 
-export function Roadmap({ title, description, categories, className }: RoadmapProps) {
+export function Roadmap({ data, title, description, categories, className }: RoadmapProps) {
+  // Determine source of data: JSON input or individual props
+  const parsedData: RoadmapDataJSON = data
+    ? (typeof data === 'string' ? JSON.parse(data) : data)
+    : { title: title!, description: description!, categories: categories! };
+
+  const { title: roadmapTitle, description: roadmapDescription, categories: roadmapCategories } = parsedData;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const totalTopics = categories.reduce((acc, category) => {
+    const totalTopics = roadmapCategories.reduce((acc, category) => {
       return acc + countAllTopics(category.topics);
     }, 0);
 
-    const completedTopics = categories.reduce((acc, category) => {
+    const completedTopics = roadmapCategories.reduce((acc, category) => {
       return acc + countCompletedTopics(category.topics);
     }, 0);
 
     setProgress(Math.round(( completedTopics / totalTopics ) * 100) || 0);
-  }, [categories]);
+  }, [roadmapCategories]);
 
   const countAllTopics = (topics: RoadmapTopic[]): number => {
     return topics.reduce((acc, topic) => {
@@ -242,8 +256,8 @@ export function Roadmap({ title, description, categories, className }: RoadmapPr
   return (
     <div ref={containerRef} className={cn("p-6 max-w-5xl mx-auto", className)}>
       <div className="mb-8 text-center">
-        <h1 className="text-[32px] font-bold mb-2 font-poppins text-[#E0E0E0]">{title}</h1>
-        <p className="text-[16px] text-[#E0E0E0]/80 mb-6 font-inter">{description}</p>
+        <h1 className="text-[32px] font-bold mb-2 font-poppins text-[#E0E0E0]">{roadmapTitle}</h1>
+        <p className="text-[16px] text-[#E0E0E0]/80 mb-6 font-inter">{roadmapDescription}</p>
 
         <div className="w-full max-w-md mx-auto bg-[#2A2D3E] rounded-full h-4 mb-2 overflow-hidden">
           <div
@@ -257,7 +271,7 @@ export function Roadmap({ title, description, categories, className }: RoadmapPr
       </div>
 
       <div>
-        {categories.map(category => (
+        {roadmapCategories.map(category => (
           <RoadmapCategory key={category.id} category={category} />
         ))}
       </div>
