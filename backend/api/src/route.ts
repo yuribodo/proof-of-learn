@@ -11,6 +11,7 @@ import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicB
 import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { SaveWalletAddressController } from "../controllers/auth/SaveWalletAdress";
+import { GetAuthenticatedUserController } from "../controllers/auth/GeMe";
 
 const router = Router();
 
@@ -60,5 +61,11 @@ router.post(
 	AuthenticationMiddleware,
 	SaveWalletAddressController,
 );
+
+router.get(
+	"/authenticated/GetMe",
+	AuthenticationMiddleware,
+	GetAuthenticatedUserController,
+)
 
 export { router };
