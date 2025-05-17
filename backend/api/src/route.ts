@@ -14,7 +14,6 @@ import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/U
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
 
-import { GetAuthenticatedUserController } from "../controllers/auth/GeMe";
 
 const router = Router();
 
@@ -81,10 +80,6 @@ router.post(
 
 router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
 
-router.get(
-	"/authenticated/GetMe",
-	AuthenticationMiddleware,
-	GetAuthenticatedUserController,
-)
+router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
 
 export { router };
