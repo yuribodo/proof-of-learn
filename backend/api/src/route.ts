@@ -6,6 +6,7 @@ import { GetAllUserRoadmapsController } from "../controllers/roadmaps/GetAllUser
 import { GetRoadmapByIdController } from "../controllers/roadmaps/GetRoadmapById";
 import { PostRoadmapController } from "../controllers/roadmaps/PostRoadmap";
 import { GetRoadmapQuizzesController } from "../controllers/roadmaps/quiz/GetQuizAndAnswerFromRoadmap";
+import { PostQuizAnswersController } from "../controllers/roadmaps/quiz/PostQuizAnswers";
 import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
 import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
@@ -21,7 +22,7 @@ router.get("/roadmaps", AuthenticationMiddleware, GetAllUserRoadmapsController);
 router.get(
 	"/roadmaps/:roadmapId",
 	AuthenticationMiddleware,
-	GetRoadmapByIdController
+	GetRoadmapByIdController,
 );
 router.post("/roadmaps", AuthenticationMiddleware, PostRoadmapController);
 router.delete("/roadmaps/:roadmapId", AuthenticationMiddleware, DeleteRoadmap);
@@ -30,21 +31,26 @@ router.delete("/roadmaps/:roadmapId", AuthenticationMiddleware, DeleteRoadmap);
 router.get(
 	"/roadmaps/:roadmapId/topics/:topicId",
 	AuthenticationMiddleware,
-	GetTopicByIdController
+	GetTopicByIdController,
 );
 
 // roadmap quiz
 router.get(
+	"/roadmaps/:roadmapId/quiz",
+	AuthenticationMiddleware,
+	GetRoadmapQuizzesController,
+);
+router.post(
 	"/roadmaps/:roadmapId/quiz/answers",
 	AuthenticationMiddleware,
-	GetRoadmapQuizzesController
+	PostQuizAnswersController,
 );
 
 //Update checked of a specific contenct to true
 router.patch(
 	"/roadmaps/:roadmapId/contents/:contentId",
 	AuthenticationMiddleware,
-	UpdateContentCheckedController
+	UpdateContentCheckedController,
 );
 
 export { router };

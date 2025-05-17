@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { prismaClient } from "../../lib/prismaClient";
 import { sanitizedResponse } from "../../util/sanitizeResponse";
 
 export async function GetAllUserRoadmapsController(
 	req: Request,
-	res: Response
+	res: Response,
 ) {
 	const { userId } = req;
 
@@ -13,7 +13,7 @@ export async function GetAllUserRoadmapsController(
 			sanitizedResponse.error({
 				message: "Unauthorized",
 				status: 401,
-			})
+			}),
 		);
 		return;
 	}
@@ -31,7 +31,7 @@ export async function GetAllUserRoadmapsController(
 			sanitizedResponse.error({
 				message: "Internal server error",
 				status: 500,
-			})
+			}),
 		);
 	}
 }

@@ -207,15 +207,16 @@ type Response<T> = {
 
 ```json
 // body received
+// the number of answers should be equal the number of quiz questions
 {
 	"answers": [
 		{
-			"roadmapQuizQuestionsId": "123456789828345678901234567890123452232",
-			"roadmapQuizQuestionsAnswerId": "442245678982834567890030396789012345223"
+			"questionId": "123456789828345678901234567890123452232",
+			"answerId": "442245678982834567890030396789012345223"
 		},
 		{
-			"roadmapQuizQuestionsId": "123456789828345678901234567890123452233",
-			"roadmapQuizQuestionsAnswerId": "442245678982834567890030396789012345227"
+			"questionId": "123456789828345678901234567890123452233",
+			"answerId": "442245678982834567890030396789012345227"
 		}
 	]
 }

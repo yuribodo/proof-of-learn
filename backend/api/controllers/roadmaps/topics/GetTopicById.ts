@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { prismaClient } from "../../../lib/prismaClient";
 import { sanitizedResponse } from "../../../util/sanitizeResponse";
 
@@ -11,7 +11,7 @@ export async function GetTopicByIdController(req: Request, res: Response) {
 			sanitizedResponse.error({
 				message: "Unauthorized",
 				status: 401,
-			})
+			}),
 		);
 		return;
 	}
