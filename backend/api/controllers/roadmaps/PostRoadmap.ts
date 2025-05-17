@@ -31,13 +31,18 @@ export async function PostRoadmapController(req: Request, res: Response) {
     return;
   }
 
-  const parsed = schema.safeParse(req.body);
-  if (!parsed.success) {
-    res
-      .status(400)
-      .json(sanitizedResponse.error({ message: "Validation failed" }));
-    return;
-  }
+  
+const parsed = schema.safeParse(req.body);
+if (!parsed.success) {
+  res.status(400).json(
+    sanitizedResponse.error({
+      message: JSON.stringify(parsed.error.format()),
+      status: 400,
+    })
+  );
+  return;
+}
+
 
   const user = await prismaClient.user.findUnique({ where: { id: userId } });
   if (!user) {
