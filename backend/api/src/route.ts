@@ -7,6 +7,7 @@ import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicB
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { PostRoadmapController } from "../controllers/roadmaps/PostRoadmap";
 import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
+import { GetRoadmapQuizzesController } from "../controllers/roadmaps/quiz/GetQuizAndAnswerFromRoadmap";
 
 
 const router = Router();
@@ -39,6 +40,11 @@ router.get(
 	"/roadmaps/:roadmapId/topics/:topicId",
 	AuthenticationMiddleware,
 	GetTopicByIdController
+);
+router.get(
+	"/roadmaps/:roadmapId/quiz/answers",
+	AuthenticationMiddleware,
+	GetRoadmapQuizzesController
 );
 
 export { router };
