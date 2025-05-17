@@ -58,18 +58,18 @@ type Response<T> = {
 		{
 			"id": "1234567890123456789012345678901234567890",
 			"theme": "test",
-			"learning_goal": "test",
-			"knowledge_level": "beginner",
-			"hours_per_day_commitment": 1,
-			"learning_style": "visual"
+			"learningGoal": "test",
+			"knowledgeLevel": "beginner",
+			"hoursPerDayCommitment": 1,
+			"learningStyle": "visual"
 		},
 		{
 			"id": "1234567890123456789012345678901234567890",
 			"theme": "test",
-			"learning_goal": "test",
-			"knowledge_level": "expert",
-			"hours_per_day_commitment": 1,
-			"learning_style": "auditory"
+			"learningGoal": "test",
+			"knowledgeLevel": "expert",
+			"hoursPerDayCommitment": 1,
+			"learningStyle": "auditory"
 		}
 	],
 	"error": null
@@ -85,22 +85,22 @@ type Response<T> = {
 	"data": {
 		"id": "1234567890123456789012345678901234567890",
 		"theme": "test",
-		"learning_goal": "test",
-		"knowledge_level": "expert",
-		"hours_per_day_commitment": 1,
-		"learning_style": "auditory",
-		"topics": [
+		"learningGoal": "test",
+		"knowledgeLevel": "expert",
+		"hoursPerDayCommitment": 1,
+		"learningStyle": "auditory",
+		"roadmapTopics": [
 			{
 				"id": "1234567890123456789012345678901234567890",
-				"topic_name": "Introduction to Blockchain",
-				"topic_description": "Basic concepts and fundamentals of blockchain technology",
-				"topic_index": 1
+				"topicName": "Introduction to Blockchain",
+				"topicDescription": "Basic concepts and fundamentals of blockchain technology",
+				"topicIndex": 1
 			},
 			{
 				"id": "2234567890123456789012345678901234567890",
-				"topic_name": "Smart Contracts",
-				"topic_description": "Understanding smart contracts and their implementation",
-				"topic_index": 2
+				"topicName": "Smart Contracts",
+				"topicDescription": "Understanding smart contracts and their implementation",
+				"topicIndex": 2
 			}
 		]
 	},
@@ -115,16 +115,16 @@ type Response<T> = {
 ```json
 {
 	"data": {
-		"roadmap_name": "test",
-		"roadmap_id": "1234567890123456789012345678901234567890",
-		"topic_id": "1234567890123456789012345678901234567890",
-		"topic_name": "Introduction to Blockchain",
+		"roadmapName": "test",
+		"roadmapId": "1234567890123456789012345678901234567890",
+		"topicId": "1234567890123456789012345678901234567890",
+		"topicName": "Introduction to Blockchain",
 		"contents": [
 			{
 				"id": "1234567890123456789012345678901234567890",
 				"name": "Introduction to Blockchain",
 				"description": "Basic concepts and fundamentals of blockchain technology",
-				"content_type": "VIDEO",
+				"contentType": "VIDEO",
 				"url": "https://example.com/blockchain-intro",
 				"checked": false
 			},
@@ -132,7 +132,7 @@ type Response<T> = {
 				"id": "1234567890123456789012345678901234567890",
 				"name": "Introduction to Blockchain",
 				"description": "Basic concepts and fundamentals of blockchain technology",
-				"content_type": "VIDEO",
+				"contentType": "VIDEO",
 				"url": "https://example.com/blockchain-intro",
 				"checked": false
 			}
@@ -146,35 +146,35 @@ type Response<T> = {
 
 > returns quiz questions and answers for a specific roadmap
 
-```JSON
+```json
 {
 	"data": [
 		{
 			"id": "123456789828345678901234567890123452232",
-			"roadmap_id": "1234567890123456789012345678901234567890",
+			"roadmapId": "1234567890123456789012345678901234567890",
 			"text": "What is the main purpose of blockchain technology?",
 			"answers": [
 				{
 					"id": "442245678982834567890030396789012345223",
-					"text": "Decentralization and secure record-keeping",
+					"text": "Decentralization and secure record-keeping"
 				},
 				{
 					"id": "442245678982834567890030396789012345224",
-					"text": "To create digital currencies only",
+					"text": "To create digital currencies only"
 				},
 				{
 					"id": "442245678982834567890030396789012345225",
-					"text": "For entertainment purposes",
+					"text": "For entertainment purposes"
 				},
 				{
 					"id": "442245678982834567890030396789012345226",
-					"text": "To replace traditional databases completely",
+					"text": "To replace traditional databases completely"
 				}
 			]
 		},
 		{
 			"id": "123456789828345678901234567890123452233",
-			"roadmap_id": "1234567890123456789012345678901234567890",
+			"roadmapId": "1234567890123456789012345678901234567890",
 			"text": "Which of the following is NOT a key characteristic of blockchain technology?",
 			"answers": [
 				{
@@ -195,7 +195,7 @@ type Response<T> = {
 				}
 			]
 		}
-	]
+	],
 	"error": null
 }
 ```
@@ -204,17 +204,17 @@ type Response<T> = {
 
 > submit user's answers for a specific roadmap quiz
 
-```JSON
+```json
 // body received
 {
 	"answers": [
 		{
-			"roadmap_quiz_questions_id": "123456789828345678901234567890123452232",
-			"roadmap_quiz_questions_answer_id": "442245678982834567890030396789012345223"
+			"roadmapQuizQuestionsId": "123456789828345678901234567890123452232",
+			"roadmapQuizQuestionsAnswerId": "442245678982834567890030396789012345223"
 		},
 		{
-			"roadmap_quiz_questions_id": "123456789828345678901234567890123452233",
-			"roadmap_quiz_questions_answer_id": "442245678982834567890030396789012345227"
+			"roadmapQuizQuestionsId": "123456789828345678901234567890123452233",
+			"roadmapQuizQuestionsAnswerId": "442245678982834567890030396789012345227"
 		}
 	]
 }
@@ -224,28 +224,28 @@ type Response<T> = {
 
 > get user score related to a specific roadmap quiz
 
-```JSON
+```json
 {
 	"data": {
-		"total_questions": 2,
-		"total_corrent": 2,
-		"score_percentage": 100,
-		"correct_answers": [
+		"totalQuestions": 2,
+		"totalCorrect": 2,
+		"scorePercentage": 100,
+		"correctAnswers": [
 			{
-				"question_id": "123456789828345678901234567890123452232",
-				"answer_id": "442245678982834567890030396789012345223",
+				"questionId": "123456789828345678901234567890123452232",
+				"answerId": "442245678982834567890030396789012345223",
 				"question": "What is the main purpose of blockchain?",
 				"answer": "Decentralized ledger technology"
 			}
 		],
-		"wrong_answers": [
+		"wrongAnswers": [
 			{
-				"question_id": "123456789828345678901234567890123452233",
-				"answer_id": "442245678982834567890030396789012345227",
+				"questionId": "123456789828345678901234567890123452233",
+				"answerId": "442245678982834567890030396789012345227",
 				"question": "What is the main advantage of blockchain?",
 				"answer": "Fast transaction speed"
 			}
-		],
+		]
 	},
 	"error": null
 }
