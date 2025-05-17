@@ -1,9 +1,11 @@
+import type { ApiResponse } from "@/@types/apiResponse";
 import type {
 	LoginDTO,
 	LoginResponse,
 	MeResponse,
 	RegisterDTO,
 	RegisterResponse,
+	User,
 } from "@/@types/auth";
 import { api } from "@/lib/api";
 
@@ -19,7 +21,11 @@ export const authService = {
 	},
 
 	async me(): Promise<MeResponse> {
-		const response = await api.get("/authenticated/GetMe");
-		return response.data;
+		const response = await api.get<ApiResponse<User>>("/me");
+		const { data, error } = response.data;
+		return {
+			user: data,
+			error,
+		};
 	},
 };
