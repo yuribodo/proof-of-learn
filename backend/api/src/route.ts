@@ -6,11 +6,13 @@ import { GetAllUserRoadmapsController } from "../controllers/roadmaps/GetAllUser
 import { GetRoadmapByIdController } from "../controllers/roadmaps/GetRoadmapById";
 import { PostRoadmapController } from "../controllers/roadmaps/PostRoadmap";
 import { GetRoadmapQuizzesController } from "../controllers/roadmaps/quiz/GetQuizAndAnswerFromRoadmap";
+import { GetQuizScoreController } from "../controllers/roadmaps/quiz/GetQuizScore";
 import { PostQuizAnswersController } from "../controllers/roadmaps/quiz/PostQuizAnswers";
 import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
 import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { SaveWalletAddressController } from "../controllers/auth/SaveWalletAdress";
+import { GetAuthenticatedUserController } from "../controllers/auth/GeMe";
 
 const router = Router();
 
@@ -46,19 +48,29 @@ router.post(
 	AuthenticationMiddleware,
 	PostQuizAnswersController,
 );
+router.get(
+	"/roadmaps/:roadmapId/quiz/score",
+	AuthenticationMiddleware,
+	GetQuizScoreController,
+);
 
-//Update checked of a specific contenct to true
+// Update checked of a specific contenct to true
 router.patch(
 	"/roadmaps/:roadmapId/contents/:contentId",
 	AuthenticationMiddleware,
 	UpdateContentCheckedController,
 );
 
-//Save user wallet adress
 router.post(
 	"/save-wallet",
 	AuthenticationMiddleware,
 	SaveWalletAddressController,
+);
+
+router.get(
+	"/authenticated/GetMe",
+	AuthenticationMiddleware,
+	GetAuthenticatedUserController,
 )
 
 export { router };
