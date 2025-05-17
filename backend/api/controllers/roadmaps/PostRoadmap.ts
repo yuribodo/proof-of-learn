@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { z } from "zod";
 import { prismaClient } from "../../lib/prismaClient";
 import { sanitizedResponse } from "../../util/sanitizeResponse";
@@ -35,7 +35,7 @@ export async function PostRoadmapController(req: Request, res: Response) {
 			sanitizedResponse.error({
 				message: parsed.error.issues,
 				status: 400,
-			})
+			}),
 		);
 		return;
 	}
@@ -45,7 +45,7 @@ export async function PostRoadmapController(req: Request, res: Response) {
 		res
 			.status(404)
 			.json(
-				sanitizedResponse.error({ message: "User not found", status: 404 })
+				sanitizedResponse.error({ message: "User not found", status: 404 }),
 			);
 		return;
 	}

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { z } from "zod";
 import { prismaClient } from "../../../lib/prismaClient";
 import { sanitizedResponse } from "../../../util/sanitizeResponse";
@@ -9,7 +9,7 @@ const schema = z.object({
 			z.object({
 				questionId: z.string().uuid(),
 				answerId: z.string().uuid(),
-			})
+			}),
 		)
 		.min(1, "At least one answer is required"),
 });
@@ -31,7 +31,7 @@ export async function PostQuizAnswersController(req: Request, res: Response) {
 			sanitizedResponse.error({
 				message: parsedSchema.error.issues,
 				status: 400,
-			})
+			}),
 		);
 		return;
 	}
@@ -53,7 +53,7 @@ export async function PostQuizAnswersController(req: Request, res: Response) {
 		res
 			.status(404)
 			.json(
-				sanitizedResponse.error({ message: "Roadmap not found", status: 404 })
+				sanitizedResponse.error({ message: "Roadmap not found", status: 404 }),
 			);
 		return;
 	}
@@ -73,7 +73,7 @@ export async function PostQuizAnswersController(req: Request, res: Response) {
 			sanitizedResponse.error({
 				message: "You already answered this roadmap quiz",
 				status: 400,
-			})
+			}),
 		);
 		return;
 	}
@@ -85,7 +85,7 @@ export async function PostQuizAnswersController(req: Request, res: Response) {
 			sanitizedResponse.error({
 				message: "You need to answer all roadmap quiz questions",
 				status: 400,
-			})
+			}),
 		);
 		return;
 	}
@@ -101,6 +101,6 @@ export async function PostQuizAnswersController(req: Request, res: Response) {
 	res.status(201).json(
 		sanitizedResponse.success({
 			message: "Answers saved",
-		})
+		}),
 	);
 }

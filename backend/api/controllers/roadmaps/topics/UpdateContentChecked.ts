@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { z } from "zod";
 import { prismaClient } from "../../../lib/prismaClient";
 import { sanitizedResponse } from "../../../util/sanitizeResponse";
@@ -14,7 +14,7 @@ const BodySchema = z.object({
 
 export async function UpdateContentCheckedController(
 	req: Request,
-	res: Response
+	res: Response,
 ) {
 	const userId = req.userId;
 	if (!userId) {
@@ -22,7 +22,7 @@ export async function UpdateContentCheckedController(
 			sanitizedResponse.error({
 				message: "Unauthorized",
 				status: 401,
-			})
+			}),
 		);
 		return;
 	}
@@ -33,7 +33,7 @@ export async function UpdateContentCheckedController(
 			sanitizedResponse.error({
 				message: parsedParams.error.issues,
 				status: 400,
-			})
+			}),
 		);
 		return;
 	}
@@ -44,7 +44,7 @@ export async function UpdateContentCheckedController(
 			sanitizedResponse.error({
 				message: parsedBody.error.issues,
 				status: 400,
-			})
+			}),
 		);
 		return;
 	}
@@ -64,7 +64,7 @@ export async function UpdateContentCheckedController(
 			sanitizedResponse.error({
 				message: "Roadmap not found",
 				status: 404,
-			})
+			}),
 		);
 		return;
 	}
@@ -83,7 +83,7 @@ export async function UpdateContentCheckedController(
 			sanitizedResponse.error({
 				message: "Content not found",
 				status: 404,
-			})
+			}),
 		);
 		return;
 	}
