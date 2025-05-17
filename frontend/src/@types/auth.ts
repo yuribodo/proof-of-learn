@@ -1,3 +1,19 @@
+export interface User {
+	id: string;
+	name: string;
+	email: string;
+	wallet_address: string | null;
+}
+
+export interface MeResponse {
+	id: string;
+	email: string;
+	name: string;
+	walletAddress: string | null;
+	createdAt: string;
+	updatedAt: string;
+}
+
 export interface RegisterDTO {
 	name: string;
 	email: string;
