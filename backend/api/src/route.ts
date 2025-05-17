@@ -10,6 +10,7 @@ import { PostQuizAnswersController } from "../controllers/roadmaps/quiz/PostQuiz
 import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
 import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
+import { SaveWalletAddressController } from "../controllers/auth/SaveWalletAdress";
 
 const router = Router();
 
@@ -51,6 +52,13 @@ router.patch(
 	"/roadmaps/:roadmapId/contents/:contentId",
 	AuthenticationMiddleware,
 	UpdateContentCheckedController,
+);
+
+//Save wallet adress
+router.post(
+	"/save-wallet",
+	AuthenticationMiddleware,
+	SaveWalletAddressController,
 );
 
 export { router };
