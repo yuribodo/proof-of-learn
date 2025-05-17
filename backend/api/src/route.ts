@@ -4,6 +4,8 @@ import { SignUpController } from "../controllers/auth/SignUpController";
 import { GetAllUserRoadmapsController } from "../controllers/roadmaps/GetAllUserRoadmapsController";
 import { GetRoadmapByIdController } from "../controllers/roadmaps/GetRoadmapByIdController";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
+import { PostRoadmapController } from "../controllers/roadmaps/PostRoadmap";
+
 
 const router = Router();
 
@@ -16,5 +18,11 @@ router.get(
 	AuthenticationMiddleware,
 	GetRoadmapByIdController
 );
+router.post(
+  "/roadmaps",
+  AuthenticationMiddleware,
+  PostRoadmapController
+);
+
 
 export { router };
