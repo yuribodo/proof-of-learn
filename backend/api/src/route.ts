@@ -14,7 +14,6 @@ import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/U
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
 
-
 const router = Router();
 
 // auth
