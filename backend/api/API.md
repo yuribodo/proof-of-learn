@@ -229,23 +229,42 @@ type Response<T> = {
 ```json
 {
 	"data": {
-		"totalQuestions": 2,
-		"totalCorrect": 2,
-		"scorePercentage": 100,
+		"totalQuestions": 5,
+		"totalCorrect": 3,
+		"totalWrong": 2,
+		"scorePercentage": 60,
 		"correctAnswers": [
 			{
-				"questionId": "123456789828345678901234567890123452232",
-				"answerId": "442245678982834567890030396789012345223",
-				"question": "What is the main purpose of blockchain?",
-				"answer": "Decentralized ledger technology"
+				"questionId": "572f33f1-ec52-48f8-ba47-051aba9b4413",
+				"answerId": "8a648f5a-7ad1-43db-a9d9-0d96fb69c538",
+				"question": "What is the correct HTML element for the largest heading?",
+				"answer": "<h1>"
+			},
+			{
+				"questionId": "b52a078c-4d6a-483f-8baf-92418be6391a",
+				"answerId": "7324647e-0392-4f4f-b9dc-83a2a104766d",
+				"question": "Which of the following is not a JavaScript data type?",
+				"answer": "Character"
+			},
+			{
+				"questionId": "2f82f626-0e12-45d5-b75d-40b429511dc2",
+				"answerId": "b3ef1159-75a4-429d-a5c3-006dc1148288",
+				"question": "What is the correct way to declare a variable in JavaScript?",
+				"answer": "let x = 5;"
 			}
 		],
 		"wrongAnswers": [
 			{
-				"questionId": "123456789828345678901234567890123452233",
-				"answerId": "442245678982834567890030396789012345227",
-				"question": "What is the main advantage of blockchain?",
-				"answer": "Fast transaction speed"
+				"questionId": "86c0f131-a2ba-4276-a533-f7003ca2ea3b",
+				"answerId": "535e8a16-a23e-41a7-95ac-7e6bf244626a",
+				"question": "Which CSS property is used to change the text color of an element?",
+				"answer": "text-color"
+			},
+			{
+				"questionId": "c58a4f02-9b10-4406-89ef-9f33f7db9321",
+				"answerId": "6bd9e264-83aa-4030-9a60-274714dc38da",
+				"question": "What is a React Hook?",
+				"answer": "A way to connect to external APIs"
 			}
 		]
 	},
