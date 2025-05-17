@@ -28,7 +28,7 @@ export default function RegisterForm() {
 			name: "",
 			email: "",
 			password: "",
-			wallet_address: null,
+			// wallet_address: null,
 		},
 		resolver: zodResolver(registerSchema),
 	});
@@ -102,7 +102,7 @@ export default function RegisterForm() {
 						</FormItem>
 					)}
 				/>
-
+				{/*
 				<FormField
 					control={form.control}
 					name="wallet_address"
@@ -123,7 +123,7 @@ export default function RegisterForm() {
 							<FormMessage />
 						</FormItem>
 					)}
-				/>
+				/> */}
 
 				<Button
 					type="submit"
