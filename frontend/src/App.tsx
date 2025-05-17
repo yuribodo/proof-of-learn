@@ -7,6 +7,7 @@ import { RoadmapsPage } from "@/pages/RoadmapsPage";
 import { RoadmapDetailPage } from "@/pages/RoadmapDetailPage";
 import { AuthGuard } from "./contexts/auth/AuthGuard";
 import { AuthProvider } from "./contexts/auth/AuthProvider";
+import RoadmapDemoPage from "@/pages/RoadmapDemoPage";
 import { Toaster } from "sonner";
 
 export default function App() {
@@ -23,9 +24,9 @@ export default function App() {
 						<Route path="/roadmaps" element={<RoadmapsPage />} />
 						<Route path="/roadmap/:id" element={<RoadmapDetailPage />} />
 						<Route path="/create-roadmap/" element={<CreateRoadmap />} />
+            <Route path="/demo-roadmap" element={<RoadmapDemoPage />} />
 					</Route>
 				</Routes>
 			</BrowserRouter>
 		</AuthProvider>
-	);
-}
+
