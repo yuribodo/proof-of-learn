@@ -1,3 +1,19 @@
+export type RoadmapFormDTO = {
+	theme: Theme;
+	learningGoal: string;
+	knowledgeLevel: KnowledgeLevel;
+	timeCommitment: number;
+	learningStyle: LearningStyle;
+};
+
+export type RoadmapFormStateDTO = {
+	theme: Theme | null;
+	learningGoal: string | null;
+	knowledgeLevel: KnowledgeLevel | null;
+	timeCommitment: number | null;
+	learningStyle: LearningStyle | null;
+};
+
 export const LearningStyles = {
 	VISUAL: "VISUAL",
 	AUDITORY: "AUDITORY",
