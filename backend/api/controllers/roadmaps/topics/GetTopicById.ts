@@ -42,8 +42,8 @@ export async function GetTopicByIdController(req: Request, res: Response) {
 
 	const formattedObject = {
 		roadmapName: roadmap?.theme,
-		roadmapId,
-		topicId,
+		roadmapId: roadmap?.id,
+		topicId: roadmapTopicContent?.id,
 		topicName: roadmapTopicContent?.topicName,
 		topicDescription: roadmapTopicContent?.topicDescription,
 		contents: roadmapTopicContent?.roadmapTopicContents ?? [],

@@ -30,7 +30,7 @@ async function main() {
 	await prismaClient.roadmap.create({
 		data: {
 			userId: user.id,
-			theme: "Fullstack Web Development",
+			theme: "PROGRAMMING",
 			learningGoal:
 				"Become a proficient fullstack developer capable of building modern web applications",
 			knowledgeLevel: KnowledgeLevel.BEGINNER,
