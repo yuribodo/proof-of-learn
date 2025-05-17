@@ -115,25 +115,26 @@ type Response<T> = {
 ```json
 {
 	"data": {
-		"roadmapName": "test",
-		"roadmapId": "1234567890123456789012345678901234567890",
-		"topicId": "1234567890123456789012345678901234567890",
-		"topicName": "Introduction to Blockchain",
+		"roadmapName": "Fullstack Web Development",
+		"roadmapId": "48684d41-c0b8-4aea-9eec-d9caf14678c2",
+		"topicId": "d22602fe-2fd1-4a3d-917a-6e7f7c7db85b",
+		"topicName": "HTML & CSS Fundamentals",
+		"topicDescription": "Learn the building blocks of web development",
 		"contents": [
 			{
-				"id": "1234567890123456789012345678901234567890",
-				"name": "Introduction to Blockchain",
-				"description": "Basic concepts and fundamentals of blockchain technology",
+				"id": "6c049164-3d83-4b01-b925-226fe9135bec",
+				"name": "HTML Crash Course",
+				"description": "Learn HTML basics in 1 hour",
 				"contentType": "VIDEO",
-				"url": "https://example.com/blockchain-intro",
+				"url": "https://www.youtube.com/watch?v=UB1O30fR-EE",
 				"checked": false
 			},
 			{
-				"id": "1234567890123456789012345678901234567890",
-				"name": "Introduction to Blockchain",
-				"description": "Basic concepts and fundamentals of blockchain technology",
-				"contentType": "VIDEO",
-				"url": "https://example.com/blockchain-intro",
+				"id": "6d7b9485-d823-4fba-8fe1-9731dfccf56f",
+				"name": "CSS Documentation",
+				"description": "Official MDN CSS documentation",
+				"contentType": "TEXT",
+				"url": "https://developer.mozilla.org/en-US/docs/Web/CSS",
 				"checked": false
 			}
 		]
