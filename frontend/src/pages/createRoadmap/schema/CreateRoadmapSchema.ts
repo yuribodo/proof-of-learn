@@ -1,16 +1,22 @@
-import { KnowledgeLevels, LearningStyles, Themes } from "@/@types/roadmap";
+import {
+	KnowledgeLevels,
+	LearningStyles,
+	Themes,
+	type KnowledgeLevel,
+	type LearningStyle,
+	type Theme,
+} from "@/@types/roadmap";
 import { z } from "zod";
 
 export const coreStepSchema = z.object({
-	theme: z.enum([...Object.values(Themes)] as [string, ...string[]]),
+	theme: z.enum(Object.values(Themes) as [Theme, ...Theme[]]),
 	learningGoal: z.string().min(1, "Learning goal is required!"),
 });
 
 export const expertiseStepSchema = z.object({
-	knowledgeLevel: z.enum([...Object.values(KnowledgeLevels)] as [
-		string,
-		...string[],
-	]),
+	knowledgeLevel: z.enum(
+		Object.values(KnowledgeLevels) as [KnowledgeLevel, ...KnowledgeLevel[]],
+	),
 	timeCommitment: z
 		.number()
 		.min(1, "Time Commitment is too low")
@@ -18,8 +24,7 @@ export const expertiseStepSchema = z.object({
 });
 
 export const preferencesStepSchema = z.object({
-	learningStyle: z.enum([...Object.values(LearningStyles)] as [
-		string,
-		...string[],
-	]),
+	learningStyle: z.enum(
+		Object.values(LearningStyles) as [LearningStyle, ...LearningStyle[]],
+	),
 });
