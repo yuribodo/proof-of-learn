@@ -83,8 +83,8 @@ export function RoadmapDetailPage() {
     <div className="min-h-screen bg-[#121212] text-[#E0E0E0] p-6">
       <nav aria-label="Main navigation" className="flex items-center justify-between bg-[#1E1E24] px-6 py-4 shadow-md mb-6">
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" className="p-2" onClick={() => navigate('/roadmaps')}>
-            <ChevronLeft className="w-6 h-6 text-[#E0E0E0]" />
+          <Button  className="p-2 cursor-pointer" onClick={() => navigate('/roadmaps')}>
+            <ChevronLeft className="w-6 h-6 text-white" />
           </Button>
           <h1 className="text-2xl font-heading font-bold text-[#E0E0E0]">Meu Roadmap</h1>
         </div>
