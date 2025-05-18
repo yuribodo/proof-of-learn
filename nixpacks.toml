@@ -2,10 +2,23 @@
 nixPkgs = ["nodejs", "pnpm"]
 
 [phases.install]
-cmds = ["cd backend/api && pnpm install"]
+cmds = [
+    "cd backend/api",
+    "pnpm install"
+]
 
 [phases.build]
-cmds = ["cd backend/api && pnpm build"]
+cmds = [
+    "cd backend/api",
+    "pnpm build"
+]
+
+[phases.deploy]
+cmds = [
+    "cd backend/api",
+    "pnpx prisma generate",
+    "pnpx prisma migrate deploy"
+]
 
 [start]
 cmd = "cd backend/api && pnpm start" 
