@@ -16,7 +16,8 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#121212]/80 border-b border-white/10 shadow-sm">
       <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="font-heading text-2xl font-bold text-[#6D4AFF] tracking-tight">
+        <Link to="/" className="font-heading text-2xl font-bold text-[#6D4AFF] tracking-tight flex items-center gap-2">
+          <img src="/iconlogo.svg" alt="Proof of Learn Logo" className="h-8 w-8" />
           Proof of Learn
         </Link>
         <div className="flex gap-2">

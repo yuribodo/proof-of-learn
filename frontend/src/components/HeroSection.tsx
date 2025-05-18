@@ -24,6 +24,14 @@ export function HeroSection() {
       />
 
       <div className="relative z-10 text-center px-4">
+        <motion.img
+          src="/iconlogo.svg"
+          alt="Proof of Learn Logo"
+          className="mx-auto mb-6 h-20 w-20 md:h-28 md:w-28 drop-shadow-lg"
+          initial={{ opacity: 0, scale: 0.7, y: -40 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+        />
         <motion.h1
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
