@@ -10,18 +10,18 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    title: 'Roadmaps Personalizados',
-    description: 'Receba um plano de estudos personalizado baseado no seu nível e objetivos.',
+    title: 'Personalized Roadmaps',
+    description: 'Get a personalized study plan based on your level and goals.',
     icon: BookOpen,
   },
   {
-    title: 'Quiz Interativo',
-    description: 'Teste seus conhecimentos e valide seu aprendizado com quizzes dinâmicos.',
+    title: 'Interactive Quiz',
+    description: 'Test your knowledge and validate your learning with dynamic quizzes.',
     icon: Trophy,
   },
   {
-    title: 'NFTs Autenticadas',
-    description: 'Ganhe NFTs únicas como prova de suas conquistas educacionais.',
+    title: 'Authenticated NFTs',
+    description: 'Earn unique NFTs as proof of your educational achievements.',
     icon: Shield,
   },
 ];
@@ -43,7 +43,7 @@ export function FeaturesSection() {
           viewport={{ once: true }}
           className="text-4xl md:text-5xl font-heading font-bold text-[#E0E0E0] text-center mb-10 tracking-tight"
         >
-          Como Funciona
+          How It Works
         </motion.h2>
         <div className="grid md:grid-cols-3 gap-10">
           {features.map(({ title, description, icon: Icon }, idx) => (
