@@ -12,6 +12,7 @@ import { GetQuizScoreController } from "../controllers/roadmaps/quiz/GetQuizScor
 import { PostQuizAnswersController } from "../controllers/roadmaps/quiz/PostQuizAnswers";
 import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
 import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
+import { GetZkProofController } from "../controllers/zkProof/GetZkProofController";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 
 const router = Router();
@@ -25,7 +26,7 @@ router.get("/roadmaps", AuthenticationMiddleware, GetAllUserRoadmapsController);
 router.get(
 	"/roadmaps/:roadmapId",
 	AuthenticationMiddleware,
-	GetRoadmapByIdController,
+	GetRoadmapByIdController
 );
 router.post("/roadmaps", AuthenticationMiddleware, PostRoadmapController);
 router.delete("/roadmaps/:roadmapId", AuthenticationMiddleware, DeleteRoadmap);
@@ -34,39 +35,45 @@ router.delete("/roadmaps/:roadmapId", AuthenticationMiddleware, DeleteRoadmap);
 router.get(
 	"/roadmaps/:roadmapId/topics/:topicId",
 	AuthenticationMiddleware,
-	GetTopicByIdController,
+	GetTopicByIdController
 );
 
 // roadmap quiz
 router.get(
 	"/roadmaps/:roadmapId/quiz",
 	AuthenticationMiddleware,
-	GetRoadmapQuizzesController,
+	GetRoadmapQuizzesController
 );
 router.post(
 	"/roadmaps/:roadmapId/quiz/answers",
 	AuthenticationMiddleware,
-	PostQuizAnswersController,
+	PostQuizAnswersController
 );
 router.get(
 	"/roadmaps/:roadmapId/quiz/score",
 	AuthenticationMiddleware,
-	GetQuizScoreController,
+	GetQuizScoreController
 );
 
 // Update checked of a specific contenct to true
 router.patch(
 	"/roadmaps/:roadmapId/contents/:contentId",
 	AuthenticationMiddleware,
-	UpdateContentCheckedController,
+	UpdateContentCheckedController
 );
 
 router.post(
 	"/save-wallet",
 	AuthenticationMiddleware,
-	SaveWalletAddressController,
+	SaveWalletAddressController
 );
 
 router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
+
+router.get(
+	"/zk-proof/:roadmapId",
+	AuthenticationMiddleware,
+	GetZkProofController
+);
 
 export { router };
