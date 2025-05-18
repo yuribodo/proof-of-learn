@@ -55,7 +55,7 @@ export function RoadmapDetailPage() {
     {
       id: id!,
       title: learningGoal,
-      description: `Compromisso: ${hoursPerDayCommitment}h/dia`,
+      description: `Commitment: ${hoursPerDayCommitment}h/day`,
       topics: roadmapTopics.map((topic: TopicAPI) => ({
         id: topic.id,
         title: topic.topicName,
@@ -86,15 +86,15 @@ export function RoadmapDetailPage() {
           <Button  className="p-2 cursor-pointer" onClick={() => navigate('/roadmaps')}>
             <ChevronLeft className="w-6 h-6 text-white" />
           </Button>
-          <h1 className="text-2xl font-heading font-bold text-[#E0E0E0]">Meu Roadmap</h1>
+          <h1 className="text-2xl font-heading font-bold text-[#E0E0E0]">My Roadmap</h1>
         </div>
         <div className="flex items-center space-x-2">
           <Button
             size="default"
-            className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white"
+            className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white cursor-pointer transform transition-transform duration-200 hover:scale-105"
             onClick={() => navigate(`/roadmap/${id}/quiz`)}
           >
-            Fazer Quiz
+            Take Quiz
           </Button>
         </div>
       </nav>
@@ -113,7 +113,7 @@ export function RoadmapDetailPage() {
         {!showFlow ? (
           <Roadmap
             title={learningGoal}
-            description={`Compromisso: ${hoursPerDayCommitment}h/dia`}
+            description={`Commitment: ${hoursPerDayCommitment}h/day`}
             categories={categories}
             onToggleContent={(contentId: string, checked: boolean) =>
               updateContentMutation.mutate({ contentId, checked })
@@ -124,7 +124,7 @@ export function RoadmapDetailPage() {
             <h2 className="text-xl font-heading font-semibold mb-4">Roadmap Flow</h2>
             <RoadmapFlow
               title={learningGoal}
-              description={`Compromisso: ${hoursPerDayCommitment}h/dia`}
+              description={`Commitment: ${hoursPerDayCommitment}h/day`}
               categories={categories}
               onToggleContent={(contentId: string, checked: boolean) =>
                 updateContentMutation.mutate({ contentId, checked })
