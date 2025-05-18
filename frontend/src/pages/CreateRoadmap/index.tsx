@@ -16,9 +16,9 @@ export function CreateRoadmap() {
 			setIsLoading(true);
 			await roadmapService.createRoadmap(data);
 
-			toast.success("RRoadmap successfully created!", { description: "Your roadmap has been created and is ready for use." });
+			toast.success("Roadmap successfully created!", { description: "Your roadmap has been created and is ready for use." });
 
-			navigate("/roadmaps");
+			navigate("/roadmaps?created=1");
 		} catch (error) {
 			toast.error("Error creating roadmap", { description: "An error occurred while creating your roadmap. Try again." });
 		} finally {

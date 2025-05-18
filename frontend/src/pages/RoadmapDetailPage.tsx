@@ -6,7 +6,6 @@ import { Roadmap } from '@/components/roadmap/Roadmap';
 import { RoadmapFlow } from '@/components/roadmap/RoadmapFlow';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
-import { Switch } from '@/components/ui/switch';
 
 interface TopicContentAPI {
   id: string;

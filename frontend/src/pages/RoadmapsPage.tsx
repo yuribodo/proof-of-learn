@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '@/contexts/auth/AuthProvider';
 import { motion } from 'framer-motion';
 import { Code } from 'lucide-react';
@@ -8,7 +8,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 import { roadmapService } from '@/services/roadmapService';
 import { toast } from 'sonner';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 
 interface RoadmapSummaryAPI {
   id: string;
@@ -42,6 +43,7 @@ function RoadmapsNavbar() {
 
 export function RoadmapsPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -71,6 +73,22 @@ export function RoadmapsPage() {
     queryKey: ['roadmaps'],
     queryFn: async (): Promise<RoadmapSummaryAPI[]> => await roadmapService.getAllRoadmaps(),
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('created')) {
+      confetti({
+        particleCount: 120,
+        spread: 90,
+        origin: { y: 0.7 },
+        zIndex: 9999,
+      });
+      // Remove the param from the URL after effect
+      const newParams = new URLSearchParams(location.search);
+      newParams.delete('created');
+      navigate({ search: newParams.toString() }, { replace: true });
+    }
+  }, [location.search, navigate]);
 
   if (isLoading) return <div>Carregando roadmaps...</div>;
   if (isError) return <div>Erro: {(error as Error).message}</div>;

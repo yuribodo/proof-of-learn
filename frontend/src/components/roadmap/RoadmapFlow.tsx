@@ -8,11 +8,9 @@ import { Button } from '@/components/ui/button';
 import { X, Check, Loader2, CheckSquare, Square } from 'lucide-react';
 import type { RoadmapProps, RoadmapTopic, RoadmapDataJSON, RoadmapResource } from './Roadmap';
 import { Card } from '@/components/ui/card';
-import { RoadmapResourceItem } from './Roadmap';
 import confetti from 'canvas-confetti';
 
-const checkSound = new Audio('/sounds/check.mp3');
-const uncheckSound = new Audio('/sounds/uncheck.mp3');
+
 
 function RoadmapResourceItemWithEffects({ resource, onToggle }: { resource: RoadmapResource; onToggle?: () => void }) {
   const isChecked = resource.checked ?? false;
@@ -25,11 +23,7 @@ function RoadmapResourceItemWithEffects({ resource, onToggle }: { resource: Road
       const x = (rect.left + rect.width / 2) / window.innerWidth;
       const y = (rect.top + rect.height / 2) / window.innerHeight;
       confetti({ particleCount: 60, spread: 70, origin: { x, y } });
-      checkSound.currentTime = 0;
-      checkSound.play();
-    } else {
-      uncheckSound.currentTime = 0;
-      uncheckSound.play();
+
     }
   }
 
