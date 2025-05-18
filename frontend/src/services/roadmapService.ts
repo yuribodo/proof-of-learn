@@ -38,4 +38,8 @@ export const roadmapService = {
 		const response = await api.get(`/roadmaps/${roadmapId}/quiz/score`);
 		return response.data.data;
 	},
+	async deleteRoadmap(roadmapId: string) {
+		const response = await api.delete(`/roadmaps/${roadmapId}`);
+		return response.data;
+	},
 };
