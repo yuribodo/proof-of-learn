@@ -5,12 +5,12 @@ import '@xyflow/react/dist/style.css';
 import { ReactFlow, ReactFlowProvider, Controls, Background, type Node, type Edge, MarkerType } from '@xyflow/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { X } from 'lucide-react';
+import { X, Check, Loader2 } from 'lucide-react';
 import type { RoadmapProps, RoadmapTopic, RoadmapDataJSON } from './Roadmap';
 import { Card } from '@/components/ui/card';
 import { RoadmapResourceItem } from './Roadmap';
 
-export function RoadmapFlow({ data, title, description, categories }: RoadmapProps) {
+export function RoadmapFlow({ data, title, description, categories, onToggleContent }: RoadmapProps) {
   const parsedData: RoadmapDataJSON = data
     ? (typeof data === 'string' ? JSON.parse(data) : data)
     : { title: title!, description: description!, categories: categories! };
@@ -34,16 +34,33 @@ export function RoadmapFlow({ data, title, description, categories }: RoadmapPro
     setProgress(total > 0 ? Math.round((completed / total) * 100) : 0);
   }, [roadmapCategories]);
 
-  const nodeClass = 'bg-gradient-to-br from-[#2A2D3E] to-[#1E1E24] text-white border border-[#4A4A5A] rounded-xl shadow-2xl px-4 py-2';
-
   const allTopics = roadmapCategories.flatMap(cat => cat.topics);
   const verticalSpacing = 150;
-  const nodes: Node[] = allTopics.map((topic, idx) => ({
-    id: topic.id,
-    data: { label: topic.title },
-    position: { x: 200, y: idx * verticalSpacing + 50 },
-    className: nodeClass,
-  }));
+  const nodes: Node[] = allTopics.map((topic, idx) => {
+    const isCompleted = topic.status === 'completed';
+    const isInProgress = topic.status === 'in-progress';
+    const bgClass = isCompleted
+      ? 'bg-gradient-to-br from-[#41E988] to-[#1E1E24]'
+      : isInProgress
+      ? 'bg-gradient-to-br from-[#6D4AFF] to-[#8C6DFF]'
+      : 'bg-gradient-to-br from-[#2A2D3E] to-[#1E1E24]';
+    return {
+      id: topic.id,
+      data: {
+        label: (
+          <div className="flex items-center gap-2">
+            <span className="flex-1 truncate">{topic.title}</span>
+            {isCompleted && <Check className="w-4 h-4 text-[#1E1E24]" />}
+            {!isCompleted && isInProgress && (
+              <Loader2 className="w-4 h-4 text-white animate-spin" />
+            )}
+          </div>
+        ),
+      },
+      position: { x: 200, y: idx * verticalSpacing + 50 },
+      className: `${bgClass} text-white border border-[#4A4A5A] rounded-xl shadow-2xl px-4 py-2`,
+    };
+  });
 
   const edges: Edge[] = allTopics.slice(0, -1).map((topic, idx) => {
     const next = allTopics[idx + 1];
@@ -129,14 +146,17 @@ export function RoadmapFlow({ data, title, description, categories }: RoadmapPro
                       <h4 className="text-sm font-medium mb-2 text-[#E0E0E0]">Resources</h4>
                       <div className="grid grid-cols-1 gap-2">
                         {selectedTopic.resources.map(resource => (
-                          <RoadmapResourceItem key={resource.id} resource={resource} />
+                          <RoadmapResourceItem
+                            key={resource.id}
+                            resource={resource}
+                            onToggle={() =>
+                              onToggleContent && onToggleContent(resource.id, !resource.checked)
+                            }
+                          />
                         ))}
                       </div>
                     </div>
                   )}
-                  <Button size="default" className="mt-auto bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white">
-                    Marcar como concluído
-                  </Button>
                 </Card>
               </motion.div>
             </>
