@@ -5,10 +5,61 @@ import '@xyflow/react/dist/style.css';
 import { ReactFlow, ReactFlowProvider, Controls, Background, type Node, type Edge, MarkerType } from '@xyflow/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { X, Check, Loader2 } from 'lucide-react';
-import type { RoadmapProps, RoadmapTopic, RoadmapDataJSON } from './Roadmap';
+import { X, Check, Loader2, CheckSquare, Square } from 'lucide-react';
+import type { RoadmapProps, RoadmapTopic, RoadmapDataJSON, RoadmapResource } from './Roadmap';
 import { Card } from '@/components/ui/card';
 import { RoadmapResourceItem } from './Roadmap';
+import confetti from 'canvas-confetti';
+
+const checkSound = new Audio('/sounds/check.mp3');
+const uncheckSound = new Audio('/sounds/uncheck.mp3');
+
+function RoadmapResourceItemWithEffects({ resource, onToggle }: { resource: RoadmapResource; onToggle?: () => void }) {
+  const isChecked = resource.checked ?? false;
+
+  function handleToggleCheck(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
+    onToggle?.();
+    if (!isChecked) {
+      const rect = (e.target as HTMLElement).getBoundingClientRect();
+      const x = (rect.left + rect.width / 2) / window.innerWidth;
+      const y = (rect.top + rect.height / 2) / window.innerHeight;
+      confetti({ particleCount: 60, spread: 70, origin: { x, y } });
+      checkSound.currentTime = 0;
+      checkSound.play();
+    } else {
+      uncheckSound.currentTime = 0;
+      uncheckSound.play();
+    }
+  }
+
+  return (
+    <div className="flex items-center gap-4 p-4 border border-border rounded-md bg-[#2A2D3E] hover:bg-[#404660] transition-colors">
+      {onToggle && (
+        <button
+          onClick={handleToggleCheck}
+          className="p-1 cursor-pointer"
+          aria-label={isChecked ? 'Marcar como não concluído' : 'Marcar como concluído'}
+        >
+          {isChecked ? (
+            <CheckSquare className="h-6 w-6 text-[#41E988]" />
+          ) : (
+            <Square className="h-6 w-6 text-black" />
+          )}
+        </button>
+      )}
+      <a
+        href={resource.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`flex items-center gap-2 truncate flex-1 ${isChecked ? 'line-through text-[#757575]' : 'text-[#E0E0E0]'}`}
+        onClick={e => e.stopPropagation()}
+      >
+        <span className="text-sm">{resource.title}</span>
+      </a>
+    </div>
+  );
+}
 
 export function RoadmapFlow({ data, title, description, categories, onToggleContent }: RoadmapProps) {
   const parsedData: RoadmapDataJSON = data
@@ -146,7 +197,7 @@ export function RoadmapFlow({ data, title, description, categories, onToggleCont
                       <h4 className="text-sm font-medium mb-2 text-[#E0E0E0]">Resources</h4>
                       <div className="grid grid-cols-1 gap-2">
                         {selectedTopic.resources.map(resource => (
-                          <RoadmapResourceItem
+                          <RoadmapResourceItemWithEffects
                             key={resource.id}
                             resource={resource}
                             onToggle={() =>

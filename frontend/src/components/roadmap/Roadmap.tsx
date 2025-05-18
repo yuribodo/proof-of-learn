@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import confetti from 'canvas-confetti';
 
 export interface RoadmapTopic {
   id: string;
@@ -59,8 +60,28 @@ const resourceIcons = {
   "documentation": <FileText className="h-4 w-4 text-white" />
 };
 
+const checkSound = new Audio('/sounds/check.mp3');
+const uncheckSound = new Audio('/sounds/uncheck.mp3');
+
 export const RoadmapResourceItem = ({ resource, onToggle }: { resource: RoadmapResource; onToggle?: () => void }) => {
   const isChecked = resource.checked ?? false;
+
+  function handleToggleCheck(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation();
+    onToggle?.();
+    if (!isChecked) {
+      const rect = (e.target as HTMLElement).getBoundingClientRect();
+      const x = (rect.left + rect.width / 2) / window.innerWidth;
+      const y = (rect.top + rect.height / 2) / window.innerHeight;
+      confetti({ particleCount: 60, spread: 70, origin: { x, y } });
+      checkSound.currentTime = 0;
+      checkSound.play();
+    } else {
+      uncheckSound.currentTime = 0;
+      uncheckSound.play();
+    }
+  }
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -68,7 +89,7 @@ export const RoadmapResourceItem = ({ resource, onToggle }: { resource: RoadmapR
           <div className="flex items-center gap-4 p-4 border border-border rounded-md bg-[#2A2D3E] hover:bg-[#404660] transition-colors">
             {onToggle && (
               <button
-                onClick={e => { e.stopPropagation(); onToggle(); }}
+                onClick={handleToggleCheck}
                 className="p-1 cursor-pointer"
                 aria-label={isChecked ? 'Marcar como não concluído' : 'Marcar como concluído'}
               >

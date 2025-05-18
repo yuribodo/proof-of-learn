@@ -1,14 +1,39 @@
+import { useContext } from 'react';
+import { AuthContext } from '@/contexts/auth/AuthProvider';
 import { motion } from 'framer-motion';
 import { Code } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { roadmapService } from '@/services/roadmapService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface RoadmapSummaryAPI {
   id: string;
   learningGoal: string;
   hoursPerDayCommitment: number;
+}
+
+function RoadmapsNavbar() {
+  const { signedIn, signout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  function handleLogout() {
+    signout();
+    navigate('/');
+  }
+  return (
+    <nav className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#121212]/80 border-b border-white/10 shadow-sm">
+      <div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-between">
+        <Link to="/" className="font-heading text-2xl font-bold text-[#6D4AFF] tracking-tight">
+          Proof of Learn
+        </Link>
+        {signedIn && (
+          <Button onClick={handleLogout} className="bg-[#EF4444] text-white hover:bg-[#b91c1c] cursor-pointer">
+            Logout
+          </Button>
+        )}
+      </div>
+    </nav>
+  );
 }
 
 export function RoadmapsPage() {
@@ -22,8 +47,9 @@ export function RoadmapsPage() {
   if (isError) return <div>Erro: {(error as Error).message}</div>;
 
   return (
-    <div className="min-h-screen bg-[#121212] text-[#E0E0E0] py-10">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between mb-8">
+    <div className="min-h-screen bg-[#121212] text-[#E0E0E0]">
+      <RoadmapsNavbar />
+      <div className="max-w-screen-xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between mt-10 mb-8">
         <h1 className="text-3xl md:text-4xl font-heading font-bold">Meus Roadmaps</h1>
         <Button
           size="lg"
@@ -32,7 +58,7 @@ export function RoadmapsPage() {
           Novo Roadmap
         </Button>
       </div>
-      <div className="container mx-auto px-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="max-w-screen-xl mx-auto px-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {roadmaps?.map(({ id, learningGoal, hoursPerDayCommitment }) => (
           <motion.div
             key={id}
