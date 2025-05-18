@@ -53,6 +53,7 @@ export function RoadmapsPage() {
         <h1 className="text-3xl md:text-4xl font-heading font-bold">Meus Roadmaps</h1>
         <Button
           size="lg"
+          onClick={() => navigate('/create-roadmap')}
           className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white transform transition-transform duration-200 hover:scale-105 cursor-pointer"
         >
           Novo Roadmap

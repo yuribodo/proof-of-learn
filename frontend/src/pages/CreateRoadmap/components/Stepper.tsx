@@ -3,6 +3,7 @@ import { StepperContext } from "@/contexts/StepperContext";
 import { useStepper } from "@/hooks/useStepper";
 import { cn } from "@/lib/utils";
 import { useCallback, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
 	initialStep?: number;
@@ -31,9 +32,10 @@ export default function Stepper({ steps, initialStep = 0 }: Props) {
 						<li
 							key={step.label}
 							className={cn(
-								"inline-block text-xs px-2 py-1 rounded-md",
-								index === currentStep &&
-									"bg-[#6D4AFF] text-white font-semibold",
+								"inline-block text-sm px-4 py-2 rounded-md transition-colors duration-200",
+								index === currentStep
+									? "bg-[#6D4AFF] text-white font-semibold"
+									: "bg-transparent text-[#A1A1AA] hover:text-[#E0E0E0]"
 							)}
 						>
 							{String(index + 1).padStart(2, "0")}. {step.label}
@@ -41,7 +43,18 @@ export default function Stepper({ steps, initialStep = 0 }: Props) {
 					))}
 				</ul>
 
-				<div className="mt-10">{steps[currentStep].content}</div>
+				<AnimatePresence initial={false} mode="popLayout">
+					<motion.div
+						key={currentStep}
+						className="mt-10"
+						initial={{ opacity: 0, x: 50 }}
+						animate={{ opacity: 1, x: 0 }}
+						exit={{ opacity: 0, x: -50 }}
+						transition={{ duration: 0.3, ease: "easeOut" }}
+					>
+						{steps[currentStep].content}
+					</motion.div>
+				</AnimatePresence>
 			</div>
 		</StepperContext.Provider>
 	);
@@ -59,9 +72,9 @@ export function StepperPreviousButton() {
 			size="sm"
 			type="button"
 			onClick={previousStep}
-			className="border-1 border-[#6D4AFF] hover:bg-[#6D4AFF] hover:scale-110 "
+			className="border-1 border-[#6D4AFF] hover:bg-[#6D4AFF] hover:scale-110 transition-transform duration-200 ease-in-out cursor-pointer"
 		>
-			Anterior
+			Previous
 		</Button>
 	);
 }
@@ -81,21 +94,22 @@ export function StepperNextButton({
 			size={size}
 			type={type}
 			onClick={nextStepHandler}
-			className="bg-[#6D4AFF] hover:bg-transparent hover:scale-110 hover:border-1 hover:border-[#6D4AFF] "
+			className="bg-[#6D4AFF] cursor-pointer hover:bg-transparent hover:scale-110 hover:border-1 hover:border-[#6D4AFF] transition-transform duration-200 ease-in-out"
 		>
-			Próximo
+			Next
 		</Button>
 	);
 }
 
-export function StepperFinishButton() {
+export function StepperFinishButton({ disabled = false }: { disabled?: boolean }) {
 	return (
 		<Button
 			size="sm"
 			type="submit"
-			className="bg-[#6D4AFF] hover:bg-transparent hover:scale-110 hover:border-1 hover:border-[#6D4AFF]"
+			disabled={disabled}
+			className="bg-[#6D4AFF] cursor-pointer hover:bg-transparent hover:scale-110 hover:border-1 hover:border-[#6D4AFF] transition-transform duration-200 ease-in-out"
 		>
-			Finalizar
+			Submit
 		</Button>
 	);
 }

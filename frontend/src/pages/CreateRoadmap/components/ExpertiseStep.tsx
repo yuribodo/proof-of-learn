@@ -10,6 +10,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
+	FormDescription,
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -66,7 +67,7 @@ export default function StepExpertise() {
 									defaultValue={field.value}
 								>
 									<SelectTrigger className="min-w-xs">
-										<SelectValue placeholder="Select a learning style" />
+										<SelectValue placeholder="Select your knowledge level" />
 									</SelectTrigger>
 									<SelectContent className="bg-zinc-900 text-white">
 										{Object.entries(KnowledgeLevelLabels).map(
@@ -88,17 +89,19 @@ export default function StepExpertise() {
 					name="timeCommitment"
 					render={({ field }) => (
 						<FormItem className="max-w-xs">
-							<FormLabel>Time Commitment</FormLabel>
+							<FormLabel>Hours a day</FormLabel>
 							<FormControl>
 								<Input
 									type="number"
 									{...field}
 									onChange={(e) => field.onChange(Number(e.target.value))}
-									placeholder="e.g., 2"
+									placeholder="Ex: 2"
 									min={1}
 									max={24}
+									className="transition-colors duration-200 focus:ring-2 focus:ring-[#6D4AFF]"
 								/>
 							</FormControl>
+							<FormDescription>Tell how many hours a day you plan to dedicate.</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
