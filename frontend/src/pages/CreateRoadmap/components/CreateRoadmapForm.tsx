@@ -13,7 +13,7 @@ interface CreateRoadmapFormProps {
 }
 
 export function CreateRoadmapForm({ onSubmit, isLoading }: CreateRoadmapFormProps) {
-	const { roadmapForm, setRoadmapForm } = useRoadmapForm();
+	const { setRoadmapForm } = useRoadmapForm();
 	const [formVersion, setFormVersion] = useState(0);
 
 	useEffect(() => {
