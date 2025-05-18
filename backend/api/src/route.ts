@@ -3,7 +3,6 @@ import { GetAuthenticatedUserController } from "../controllers/auth/GetMe";
 import { SaveWalletAddressController } from "../controllers/auth/SaveWalletAdress";
 import { SignInController } from "../controllers/auth/SignInController";
 import { SignUpController } from "../controllers/auth/SignUpController";
-import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
 import { GetAllUserRoadmapsController } from "../controllers/roadmaps/GetAllUserRoadmaps";
 import { GetRoadmapByIdController } from "../controllers/roadmaps/GetRoadmapById";
 import { PostRoadmapController } from "../controllers/roadmaps/PostRoadmap";
@@ -14,6 +13,8 @@ import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicB
 import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 import { GetZkProofController } from "../controllers/zkProof/GetZkProofController";
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
+import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
+
 
 const router = Router();
 
@@ -28,8 +29,17 @@ router.get(
 	AuthenticationMiddleware,
 	GetRoadmapByIdController
 );
-router.post("/roadmaps", AuthenticationMiddleware, PostRoadmapController);
-router.delete("/roadmaps/:roadmapId", AuthenticationMiddleware, DeleteRoadmap);
+router.post(
+	"/roadmaps",
+	AuthenticationMiddleware,
+	PostRoadmapController
+);
+router.delete(
+	"/roadmaps/:roadmapId",
+	AuthenticationMiddleware,
+	DeleteRoadmap
+);
+
 
 // roadmap topic
 router.get(
@@ -62,6 +72,7 @@ router.patch(
 	UpdateContentCheckedController
 );
 
+//Save user wallet adress
 router.post(
 	"/save-wallet",
 	AuthenticationMiddleware,
@@ -70,10 +81,28 @@ router.post(
 
 router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
 
+
 router.get(
 	"/zk-proof/:roadmapId",
 	AuthenticationMiddleware,
 	GetZkProofController
 );
+
+router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
+router.get(
+	"/authenticated/GetMe",
+	AuthenticationMiddleware,
+	GetAuthenticatedUserController,
+)
+
+
+
+router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
+router.get(
+	"/authenticated/GetMe",
+	AuthenticationMiddleware,
+	GetAuthenticatedUserController,
+)
+
 
 export { router };

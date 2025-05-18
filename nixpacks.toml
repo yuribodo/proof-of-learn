@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = ["nodejs", "pnpm"]
+
+[phases.install]
+cmds = ["cd backend/api && pnpm install"]
+
+[phases.build]
+cmds = ["cd backend/api && pnpm build"]
+
+[phases.deploy]
+cmds = ["cd backend/api && pnpx prisma generate --schema=./prisma/schema.prisma && pnpx prisma migrate deploy --schema=./prisma/schema.prisma"]
+
+[start]
+cmd = "cd backend/api && pnpm start" 
