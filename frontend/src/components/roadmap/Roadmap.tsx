@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ChevronRight, Check, FileText, BookOpen, Code } from "lucide-react";
+import { ChevronRight, Check, FileText, BookOpen, Code, CheckSquare, Square } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +21,7 @@ export interface RoadmapResource {
   title: string;
   type: "article" | "video" | "course" | "documentation";
   url: string;
+  checked?: boolean;
 }
 
 export interface RoadmapCategory {
@@ -42,6 +43,7 @@ export interface RoadmapProps {
   description?: string;
   categories?: RoadmapCategory[];
   className?: string;
+  onToggleContent?: (contentId: string, checked: boolean) => void;
 }
 
 const statusColors = {
@@ -57,20 +59,39 @@ const resourceIcons = {
   "documentation": <FileText className="h-4 w-4 text-white" />
 };
 
-export const RoadmapResourceItem = ({ resource }: { resource: RoadmapResource }) => {
+export const RoadmapResourceItem = ({ resource, onToggle }: { resource: RoadmapResource; onToggle?: () => void }) => {
+  const isChecked = resource.checked ?? false;
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <a
-            href={resource.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-md border border-border p-2 transition-colors hover:bg-gradient-to-br hover:from-[#2A2D3E] hover:to-[#404660]"
-          >
-            {resourceIcons[resource.type]}
-            <span className="text-sm truncate text-[#E0E0E0]">{resource.title}</span>
-          </a>
+          <div className="flex items-center gap-4 p-4 border border-border rounded-md bg-[#2A2D3E] hover:bg-[#404660] transition-colors">
+            {onToggle && (
+              <button
+                onClick={e => { e.stopPropagation(); onToggle(); }}
+                className="p-1 cursor-pointer"
+                aria-label={isChecked ? 'Marcar como não concluído' : 'Marcar como concluído'}
+              >
+                {isChecked ? (
+                  <CheckSquare className="h-6 w-6 text-[#41E988]" />
+                ) : (
+                  <Square className="h-6 w-6 text-black" />
+                )}
+              </button>
+            )}
+            <a
+              href={resource.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-2 truncate flex-1 ${
+                isChecked ? 'line-through text-[#757575]' : 'text-[#E0E0E0]'
+              }`}
+              onClick={e => e.stopPropagation()}
+            >
+              {resourceIcons[resource.type]}
+              <span className="text-sm">{resource.title}</span>
+            </a>
+          </div>
         </TooltipTrigger>
         <TooltipContent>
           <p>{resource.title}</p>
@@ -81,7 +102,15 @@ export const RoadmapResourceItem = ({ resource }: { resource: RoadmapResource })
   );
 };
 
-const RoadmapTopicItem = ({ topic, level = 0 }: { topic: RoadmapTopic; level?: number }) => {
+const RoadmapTopicItem = ({
+  topic,
+  level = 0,
+  onToggleContent,
+}: {
+  topic: RoadmapTopic;
+  level?: number;
+  onToggleContent?: (contentId: string, checked: boolean) => void;
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasSubtopics = topic.subtopics && topic.subtopics.length > 0;
   const hasResources = topic.resources && topic.resources.length > 0;
@@ -148,7 +177,14 @@ const RoadmapTopicItem = ({ topic, level = 0 }: { topic: RoadmapTopic; level?: n
                     <h4 className="text-sm font-medium mb-2 text-[#E0E0E0]">Resources</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       {topic.resources?.map(resource => (
-                        <RoadmapResourceItem key={resource.id} resource={resource} />
+                        <RoadmapResourceItem
+                          key={resource.id}
+                          resource={resource}
+                          onToggle={() =>
+                            onToggleContent &&
+                            onToggleContent(resource.id, !resource.checked)
+                          }
+                        />
                       ))}
                     </div>
                   </div>
@@ -163,6 +199,7 @@ const RoadmapTopicItem = ({ topic, level = 0 }: { topic: RoadmapTopic; level?: n
                           key={subtopic.id}
                           topic={subtopic}
                           level={level + 1}
+                          onToggleContent={onToggleContent}
                         />
                       ))}
                     </div>
@@ -177,7 +214,13 @@ const RoadmapTopicItem = ({ topic, level = 0 }: { topic: RoadmapTopic; level?: n
   );
 };
 
-const RoadmapCategory = ({ category }: { category: RoadmapCategory }) => {
+const RoadmapCategory = ({
+  category,
+  onToggleContent,
+}: {
+  category: RoadmapCategory;
+  onToggleContent?: (contentId: string, checked: boolean) => void;
+}) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
@@ -208,15 +251,28 @@ const RoadmapCategory = ({ category }: { category: RoadmapCategory }) => {
             className="overflow-hidden"
           >
             {category.topics.map((topic, index) => (
-              <RoadmapTopicItem key={topic.id} topic={topic} level={index} />
+              <RoadmapTopicItem
+                key={topic.id}
+                topic={topic}
+                level={index}
+                onToggleContent={onToggleContent}
+              />
             ))}
           </motion.div>
         )}
       </AnimatePresence>
     </div>
-)};
+  );
+};
 
-export function Roadmap({ data, title, description, categories, className }: RoadmapProps) {
+export function Roadmap({
+  data,
+  title,
+  description,
+  categories,
+  className,
+  onToggleContent,
+}: RoadmapProps) {
   // Determine source of data: JSON input or individual props
   const parsedData: RoadmapDataJSON = data
     ? (typeof data === 'string' ? JSON.parse(data) : data)
@@ -272,7 +328,11 @@ export function Roadmap({ data, title, description, categories, className }: Roa
 
       <div>
         {roadmapCategories.map(category => (
-          <RoadmapCategory key={category.id} category={category} />
+          <RoadmapCategory
+            key={category.id}
+            category={category}
+            onToggleContent={onToggleContent}
+          />
         ))}
       </div>
     </div>
