@@ -26,15 +26,25 @@ export async function GetRoadmapByIdController(req: Request, res: Response) {
 		return;
 	}
 
-	const roadmap = await prismaClient.roadmap.findUnique({
+	const roadmap = await prismaClient.roadmap.findFirst({
 		where: {
 			id: roadmapId,
 			userId,
 		},
 		include: {
-			roadmapTopics: true,
+			roadmapTopics: {
+				orderBy: { topicIndex: 'asc' },
+				include: { roadmapTopicContents: true },
+			},
 		},
 	});
+
+	if (!roadmap) {
+		res.status(404).json(
+			sanitizedResponse.error({ message: 'Roadmap not found', status: 404 }),
+		);
+		return;
+	}
 
 	res.status(200).json(sanitizedResponse.success(roadmap));
 	return;
