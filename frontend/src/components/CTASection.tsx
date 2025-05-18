@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export function CTASection() {
+  const navigate = useNavigate();
   return (
     <motion.section
       initial={{ opacity: 0, y: 40 }}
@@ -53,6 +55,7 @@ export function CTASection() {
           <Button
             size="lg"
             className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white cursor-pointer transform transition-transform duration-200 hover:scale-105 shadow-lg px-8 py-4 text-lg"
+            onClick={() => navigate('/roadmaps')}
           >
             Criar Minha Conta <ArrowRight className="ml-2" />
           </Button>
