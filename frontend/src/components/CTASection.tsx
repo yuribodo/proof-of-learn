@@ -35,7 +35,7 @@ export function CTASection() {
           viewport={{ once: true }}
           className="text-4xl md:text-5xl font-heading font-bold mb-8 text-[#E0E0E0] tracking-tight"
         >
-          Pronto para Começar sua Jornada?
+          Ready to Start Your Journey?
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -44,7 +44,7 @@ export function CTASection() {
           viewport={{ once: true }}
           className="text-2xl mb-10 text-[#E0E0E0]/80 max-w-2xl mx-auto"
         >
-          Junte-se a milhares de estudantes que já transformaram seu aprendizado em conquistas únicas.
+          Join thousands of students who have already transformed their learning into unique achievements.
         </motion.p>
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -57,7 +57,7 @@ export function CTASection() {
             className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white cursor-pointer transform transition-transform duration-200 hover:scale-105 shadow-lg px-8 py-4 text-lg"
             onClick={() => navigate('/roadmaps')}
           >
-            Criar Minha Conta <ArrowRight className="ml-2" />
+            Create My Account <ArrowRight className="ml-2" />
           </Button>
         </motion.div>
       </div>

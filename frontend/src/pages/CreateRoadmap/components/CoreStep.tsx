@@ -62,7 +62,7 @@ export default function CoreStep() {
 									defaultValue={field.value}
 								>
 									<SelectTrigger>
-										<SelectValue placeholder="Select a learning style" />
+										<SelectValue placeholder="Select a theme" />
 									</SelectTrigger>
 									<SelectContent className="bg-zinc-900 text-white">
 										{Object.entries(ThemeLabels).map(([value, label]) => (
@@ -84,7 +84,11 @@ export default function CoreStep() {
 						<FormItem className="max-w-xs">
 							<FormLabel>Learning Goal</FormLabel>
 							<FormControl>
-								<Input {...field} placeholder="What is your learning goal?" />
+								<Input
+									{...field}
+									placeholder="Ex: Build a dApp with Ethereum"
+									className="transition-colors duration-200 focus:ring-2 focus:ring-[#6D4AFF]"
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>

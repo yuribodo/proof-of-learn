@@ -24,13 +24,21 @@ export function HeroSection() {
       />
 
       <div className="relative z-10 text-center px-4">
+        <motion.img
+          src="/iconlogo.svg"
+          alt="Proof of Learn Logo"
+          className="mx-auto mb-6 h-20 w-20 md:h-28 md:w-28 drop-shadow-lg"
+          initial={{ opacity: 0, scale: 0.7, y: -40 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+        />
         <motion.h1
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: 'easeOut' }}
           className="text-5xl md:text-7xl font-heading font-bold text-[#E0E0E0] mb-6"
         >
-          Aprenda, Conquiste, Colecione
+          Learn, Conquer, Collect
         </motion.h1>
         <motion.p
           initial={{ y: 50, opacity: 0 }}
@@ -38,8 +46,7 @@ export function HeroSection() {
           transition={{ duration: 1, delay: 0.3 }}
           className="text-xl md:text-2xl text-[#E0E0E0]/80 max-w-2xl mx-auto mb-8"
         >
-          Roadmaps personalizados, quizzes interativos e NFTs como recompensa pela sua jornada de
-          aprendizado.
+          Personalized roadmaps, interactive quizzes, and NFTs as rewards for your learning journey.
         </motion.p>
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -48,10 +55,10 @@ export function HeroSection() {
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <Button onClick={() => navigate('/roadmaps')} size="lg" className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white cursor-pointer transform transition-transform duration-200 hover:scale-105">
-            Começar Agora <ArrowRight className="ml-2" />
+            Get Started <ArrowRight className="ml-2" />
           </Button>
-          <Button onClick={() => navigate('/roadmaps')} size="lg" variant="outline" className="border-[#6D4AFF] text-[#6D4AFF] hover:bg-[#6D4AFF]/10 cursor-pointer transform transition-transform duration-200 hover:scale-105">
-            Saiba Mais
+          <Button onClick={() => navigate('/roadmaps')} size="lg" variant="outline" className="border-[#6D4AFF] text-[#6D4AFF] hover:bg-[#6D4AFF]/10 hover:text-white cursor-pointer transform transition-transform duration-200 hover:scale-105">
+            Learn More
           </Button>
         </motion.div>
       </div>

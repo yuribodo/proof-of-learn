@@ -24,12 +24,15 @@ import { preferencesStepSchema } from "../schema/CreateRoadmapSchema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRoadmapForm } from "@/stores/roadmapStores";
-import { useMutation } from "@tanstack/react-query";
-import { roadmapService } from "@/services/roadmapService";
 
 type FormData = z.infer<typeof preferencesStepSchema>;
 
-export default function PreferencesStep() {
+interface PreferencesStepProps {
+	onFinish: (data: RoadmapFormDTO) => Promise<void>;
+	isLoading: boolean;
+}
+
+export default function PreferencesStep({ onFinish, isLoading }: PreferencesStepProps) {
 	const { roadmapForm, setRoadmapForm } = useRoadmapForm();
 
 	const form = useForm<FormData>({
@@ -39,21 +42,10 @@ export default function PreferencesStep() {
 		resolver: zodResolver(preferencesStepSchema),
 	});
 
-	const { mutate } = useMutation({
-		mutationFn: (data: RoadmapFormDTO) => {
-			return roadmapService.createRoadmap(data);
-		},
-	});
-
-	const handleSubmit = form.handleSubmit((formData) => {
-		setRoadmapForm({
-			learningStyle: formData.learningStyle,
-		});
-		const updatedForm = {
-			...roadmapForm,
-			learningStyle: formData.learningStyle,
-		};
-		mutate(updatedForm as RoadmapFormDTO);
+	const handleSubmit = form.handleSubmit(async (formData) => {
+		setRoadmapForm({ learningStyle: formData.learningStyle });
+		const updatedForm = { ...roadmapForm, learningStyle: formData.learningStyle };
+		await onFinish(updatedForm as RoadmapFormDTO);
 	});
 
 	return (
@@ -91,7 +83,7 @@ export default function PreferencesStep() {
 				/>
 				<StepperFooter>
 					<StepperPreviousButton />
-					<StepperFinishButton />
+					<StepperFinishButton disabled={isLoading} />
 				</StepperFooter>
 			</form>
 		</Form>

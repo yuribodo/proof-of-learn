@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { roadmapService } from '@/services/roadmapService';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { toast } from 'sonner';
 
 interface QuizResultAPI {
   totalQuestions: number;

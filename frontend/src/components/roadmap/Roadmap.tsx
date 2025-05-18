@@ -60,8 +60,6 @@ const resourceIcons = {
   "documentation": <FileText className="h-4 w-4 text-white" />
 };
 
-const checkSound = new Audio('/sounds/check.mp3');
-const uncheckSound = new Audio('/sounds/uncheck.mp3');
 
 export const RoadmapResourceItem = ({ resource, onToggle }: { resource: RoadmapResource; onToggle?: () => void }) => {
   const isChecked = resource.checked ?? false;
@@ -74,11 +72,7 @@ export const RoadmapResourceItem = ({ resource, onToggle }: { resource: RoadmapR
       const x = (rect.left + rect.width / 2) / window.innerWidth;
       const y = (rect.top + rect.height / 2) / window.innerHeight;
       confetti({ particleCount: 60, spread: 70, origin: { x, y } });
-      checkSound.currentTime = 0;
-      checkSound.play();
-    } else {
-      uncheckSound.currentTime = 0;
-      uncheckSound.play();
+
     }
   }
 

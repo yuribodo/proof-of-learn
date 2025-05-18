@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { roadmapService } from '@/services/roadmapService';
@@ -21,11 +21,30 @@ interface QuizQuestionAPI {
 export default function RoadmapQuizPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [checkingAnswered, setCheckingAnswered] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function checkQuizAnswered() {
+      try {
+        await roadmapService.getQuizScore(id!);
+        if (isMounted) {
+          navigate(`/roadmap/${id}/quiz/result`);
+        }
+      } catch (err) {
+        // If error, user hasn't answered, continue as normal
+      } finally {
+        if (isMounted) setCheckingAnswered(false);
+      }
+    }
+    if (id) checkQuizAnswered();
+    return () => { isMounted = false; };
+  }, [id, navigate]);
 
   const { data: quiz, isLoading, isError, error } = useQuery<QuizQuestionAPI[]>({
     queryKey: ['quiz', id!],
     queryFn: () => roadmapService.getQuiz(id!),
-    enabled: !!id,
+    enabled: !!id && !checkingAnswered,
   });
 
   const submitMutation = useMutation({
@@ -49,9 +68,10 @@ export default function RoadmapQuizPage() {
   const [selected, setSelected] = useState<Record<string, string>>({});
   const [currentStep, setCurrentStep] = useState(0);
 
-  if (isLoading) return <div>Carregando quiz...</div>;
-  if (isError) return <div>Erro: {(error as Error).message}</div>;
-  if (!quiz) return <div>Nenhum quiz disponível.</div>;
+  if (checkingAnswered) return <div>Loading quiz...</div>;
+  if (isLoading) return <div>Loading quiz...</div>;
+  if (isError) return <div>Error: {(error as Error).message}</div>;
+  if (!quiz) return <div>No quiz available.</div>;
 
   const total = quiz.length;
   const currentQuestion = quiz[currentStep];
@@ -75,9 +95,9 @@ export default function RoadmapQuizPage() {
   return (
     <div className="min-h-screen bg-[#121212] text-[#E0E0E0] p-6">
       <div className="container mx-auto max-w-3xl">
-        <h1 className="text-3xl font-heading font-bold mb-4">Quiz do Roadmap</h1>
+        <h1 className="text-3xl font-heading font-bold mb-4">Roadmap Quiz</h1>
         <div className="mb-4 flex justify-between items-center">
-          <span className="text-sm">Questão {currentStep + 1} de {total}</span>
+          <span className="text-sm">Question {currentStep + 1} of {total}</span>
           <div className="w-1/2 bg-[#4A4A5A] rounded-full h-2 overflow-hidden">
             <motion.div
               className="h-full bg-gradient-to-r from-[#6D4AFF] to-[#B668FF]"
@@ -132,21 +152,21 @@ export default function RoadmapQuizPage() {
             className='text-black cursor-pointer'
             onClick={() => setCurrentStep(currentStep - 1)}
             disabled={currentStep === 0}
-          >Anterior</Button>
+          >Previous</Button>
           {currentStep < total - 1 ? (
             <Button
               size="default"
               className='text-white cursor-pointer'
               onClick={() => setCurrentStep(currentStep + 1)}
               disabled={!selected[currentQuestion.id]}
-            >Próxima</Button>
+            >Next</Button>
           ) : (
             <Button
               size="default"
               className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white"
               onClick={handleSubmit}
               disabled={submitMutation.status === 'pending' || Object.keys(selected).length !== quiz.length}
-            >{submitMutation.status === 'pending' ? 'Enviando...' : 'Enviar Quiz'}</Button>
+            >{submitMutation.status === 'pending' ? 'Sending...' : 'Submit Quiz'}</Button>
           )}
         </div>
       </div>

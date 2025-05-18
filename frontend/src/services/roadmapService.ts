@@ -3,7 +3,15 @@ import { api } from "@/lib/api";
 
 export const roadmapService = {
 	async createRoadmap(data: RoadmapFormDTO) {
-		const response = await api.post("/roadmaps", data);
+		// Map timeCommitment to hoursPerDayCommitment for backend
+		const payload = {
+			theme: data.theme,
+			learningGoal: data.learningGoal,
+			knowledgeLevel: data.knowledgeLevel,
+			hoursPerDayCommitment: data.timeCommitment,
+			learningStyle: data.learningStyle,
+		};
+		const response = await api.post("/roadmaps", payload);
 		return response.data;
 	},
 	async getAllRoadmaps() {
@@ -29,5 +37,9 @@ export const roadmapService = {
 	async getQuizScore(roadmapId: string) {
 		const response = await api.get(`/roadmaps/${roadmapId}/quiz/score`);
 		return response.data.data;
+	},
+	async deleteRoadmap(roadmapId: string) {
+		const response = await api.delete(`/roadmaps/${roadmapId}`);
+		return response.data;
 	},
 };
