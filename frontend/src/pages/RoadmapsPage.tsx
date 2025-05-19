@@ -90,8 +90,24 @@ export function RoadmapsPage() {
     }
   }, [location.search, navigate]);
 
-  if (isLoading) return <div>Carregando roadmaps...</div>;
-  if (isError) return <div>Erro: {(error as Error).message}</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#121212] text-[#E0E0E0] p-6">
+        <RoadmapsNavbar />
+        <div className="max-w-screen-xl mx-auto px-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3].map(n => (
+            <div key={n} className="bg-[#2A2D3E] p-6 rounded-lg animate-pulse">
+              <div className="h-8 w-8 bg-gray-600 rounded mb-4" />
+              <div className="h-6 bg-gray-600 rounded mb-2" />
+              <div className="h-4 bg-gray-600 rounded mb-4" />
+              <div className="h-9 bg-gray-600 rounded" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+  if (isError) return <div>Error: {(error as Error).message}</div>;
 
   return (
     <div className="min-h-screen bg-[#121212] text-[#E0E0E0]">

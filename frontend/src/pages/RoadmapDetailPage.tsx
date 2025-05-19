@@ -46,8 +46,26 @@ export function RoadmapDetailPage() {
     enabled: !!id,
   });
 
-  if (isLoading) return <div>Carregando roadmap...</div>;
-  if (isError) return <div>Erro: {(error as Error).message}</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#121212] p-6 animate-pulse">
+        <nav aria-label="Main navigation" className="flex items-center justify-between bg-[#1E1E24] px-6 py-4 shadow-md mb-6">
+          <div className="flex items-center space-x-4">
+            <div className="h-8 w-8 bg-gray-600 rounded" />
+            <div className="h-6 w-1/3 bg-gray-600 rounded" />
+          </div>
+          <div className="h-8 w-20 bg-gray-600 rounded" />
+        </nav>
+        <div className="container mx-auto space-y-6">
+          <div className="h-8 w-1/2 bg-gray-600 rounded mb-4" />
+          <div className="h-4 w-full bg-gray-600 rounded mb-2" />
+          <div className="h-4 w-3/4 bg-gray-600 rounded mb-2" />
+          <div className="h-48 bg-gray-600 rounded" />
+        </div>
+      </div>
+    );
+  }
+  if (isError) return <div>Error: {(error as Error).message}</div>;
 
   const { learningGoal, hoursPerDayCommitment, roadmapTopics } = roadmapData!;
   const categories = [

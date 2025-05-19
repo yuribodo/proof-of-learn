@@ -49,7 +49,26 @@ export default function RoadmapQuizPage() {
   const [selected, setSelected] = useState<Record<string, string>>({});
   const [currentStep, setCurrentStep] = useState(0);
 
-  if (isLoading) return <div>Loading quiz...</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#121212] text-[#E0E0E0] p-6 animate-pulse">
+        <div className="container mx-auto max-w-3xl space-y-6">
+          <div className="h-8 w-1/3 bg-gray-600 rounded mb-4" />
+          <div className="space-y-4">
+            {Array(4)
+              .fill(0)
+              .map((_, i) => (
+                <div key={i} className="h-6 bg-gray-600 rounded" />
+              ))}
+          </div>
+          <div className="flex justify-between mt-6">
+            <div className="h-9 w-20 bg-gray-600 rounded" />
+            <div className="h-9 w-20 bg-gray-600 rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (isError) return <div>Error: {(error as Error).message}</div>;
   if (!quiz) return <div>No quiz available.</div>;
 
@@ -143,7 +162,7 @@ export default function RoadmapQuizPage() {
           ) : (
             <Button
               size="default"
-              className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white"
+              className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white cursor-pointer"
               onClick={handleSubmit}
               disabled={submitMutation.status === 'pending' || Object.keys(selected).length !== quiz.length}
             >{submitMutation.status === 'pending' ? 'Sending...' : 'Submit Quiz'}</Button>

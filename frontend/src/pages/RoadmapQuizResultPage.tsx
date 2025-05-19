@@ -23,9 +23,26 @@ export default function RoadmapQuizResultPage() {
     enabled: !!id,
   });
 
-  if (isLoading) return <div>Carregando resultado...</div>;
-  if (isError) return <div>Erro: {(error as Error).message}</div>;
-  if (!data) return <div>Sem dados de resultado.</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-[#121212] text-[#E0E0E0] p-6 animate-pulse">
+        <div className="container mx-auto max-w-3xl space-y-6">
+          <div className="h-8 w-1/4 bg-gray-600 rounded mb-4" />
+          <div className="h-48 bg-gray-600 rounded mb-4" />
+          <div className="space-y-2">
+            {Array(3)
+              .fill(0)
+              .map((_, i) => (
+                <div key={i} className="h-4 bg-gray-600 rounded" />
+              ))}
+          </div>
+          <div className="h-9 w-32 bg-gray-600 rounded mt-6 mx-auto" />
+        </div>
+      </div>
+    );
+  }
+  if (isError) return <div>Error: {(error as Error).message}</div>;
+  if (!data) return <div>No result data available.</div>;
   const result = data;
 
   return (
