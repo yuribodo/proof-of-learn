@@ -11,7 +11,7 @@ import { GetQuizScoreController } from "../controllers/roadmaps/quiz/GetQuizScor
 import { PostQuizAnswersController } from "../controllers/roadmaps/quiz/PostQuizAnswers";
 import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
 import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
-import { GetZkProofController } from "../controllers/zkProof/GetZkProofController";
+
 import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
 
@@ -28,6 +28,7 @@ router.get(
 	"/roadmaps/:roadmapId",
 	AuthenticationMiddleware,
 	GetRoadmapByIdController
+
 );
 router.post(
 	"/roadmaps",
@@ -81,28 +82,9 @@ router.post(
 
 router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
 
-
 router.get(
 	"/zk-proof/:roadmapId",
 	AuthenticationMiddleware,
-	GetZkProofController
 );
-
-router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
-router.get(
-	"/authenticated/GetMe",
-	AuthenticationMiddleware,
-	GetAuthenticatedUserController,
-)
-
-
-
-router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
-router.get(
-	"/authenticated/GetMe",
-	AuthenticationMiddleware,
-	GetAuthenticatedUserController,
-)
-
 
 export { router };
