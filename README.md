@@ -2,7 +2,7 @@
 
 You can check out our project in action here:
 
-👉 [**Proof Of Learn – Live App**](https://your-deployment-url.com)
+👉 [**Proof Of Learn – Live App**](https://proof-of-learn-q874.vercel.app/)
 
 > Feel free to explore the platform, generate your custom learning roadmap, and try out the quiz-to-NFT flow!
 
