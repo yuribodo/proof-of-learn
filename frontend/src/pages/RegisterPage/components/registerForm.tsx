@@ -15,12 +15,23 @@ import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import type { RegisterDTO } from "@/@types/auth";
 import { authService } from "@/services/authService";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 type FormData = z.infer<typeof registerSchema>;
 
 export default function RegisterForm() {
+	const navigate = useNavigate();
 	const { mutate, isPending } = useMutation({
 		mutationFn: (data: RegisterDTO) => authService.register(data),
+		onSuccess: (data) => {
+			toast.success(data.message);
+			navigate("/login");
+		},
+		onError: (error: any) => {
+			const apiMessage = error?.response?.data?.error?.message || error.message || 'Registration failed.';
+			toast.error(apiMessage);
+		},
 	});
 
 	const form = useForm<FormData>({
@@ -28,7 +39,6 @@ export default function RegisterForm() {
 			name: "",
 			email: "",
 			password: "",
-			// wallet_address: null,
 		},
 		resolver: zodResolver(registerSchema),
 	});

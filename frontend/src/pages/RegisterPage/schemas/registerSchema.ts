@@ -9,9 +9,4 @@ export const registerSchema = z.object({
 		.string()
 		.min(1, "Password is required")
 		.min(6, 'The "password" field must have at least 6 characters'),
-	wallet_address: z
-		.string()
-		.min(1, 'The "Wallet Address" is required')
-		.min(3, 'The "Wallet Address" field must have at least 3 characters')
-		.nullable(),
 });
