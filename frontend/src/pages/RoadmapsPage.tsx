@@ -107,30 +107,37 @@ export function RoadmapsPage() {
         </Button>
       </div>
       <div className="max-w-screen-xl mx-auto px-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {roadmaps?.map(({ id, learningGoal, hoursPerDayCommitment }) => (
-          <motion.div
-            key={id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="relative bg-[#2A2D3E] p-6 rounded-lg border border-[rgba(255,255,255,0.1)] shadow-[0_8px_16px_rgba(0,0,0,0.2)] flex flex-col"
-          >
-            <Trash2
-              className="absolute top-4 right-4 w-5 h-5 text-red-500 hover:text-red-700 cursor-pointer"
-              onClick={() => openDeleteModal(id)}
-            />
-            <Code className="w-8 h-8 text-[#6D4AFF] mb-4" />
-            <h3 className="text-xl font-heading font-semibold mb-2">{learningGoal}</h3>
-            <p className="text-base text-[#E0E0E0]/80 mb-4 flex-grow">Commitment: {hoursPerDayCommitment}h/day</p>
-            <Button
-              size="default"
-              onClick={() => navigate(`/roadmap/${id}`)}
-              className="mt-auto bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white cursor-pointer transform transition-transform duration-200 hover:scale-105"
+        {roadmaps && roadmaps.length === 0 ? (
+          <div className="col-span-full text-center text-[#E0E0E0]/80 py-16 text-xl">
+            You have no roadmaps yet.<br />
+            <span className="text-[#6D4AFF] font-semibold">Create your first roadmap to start your learning journey!</span>
+          </div>
+        ) : (
+          roadmaps?.map(({ id, learningGoal, hoursPerDayCommitment }) => (
+            <motion.div
+              key={id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+              className="relative bg-[#2A2D3E] p-6 rounded-lg border border-[rgba(255,255,255,0.1)] shadow-[0_8px_16px_rgba(0,0,0,0.2)] flex flex-col"
             >
-              Continue
-            </Button>
-          </motion.div>
-        ))}
+              <Trash2
+                className="absolute top-4 right-4 w-5 h-5 text-red-500 hover:text-red-700 cursor-pointer"
+                onClick={() => openDeleteModal(id)}
+              />
+              <Code className="w-8 h-8 text-[#6D4AFF] mb-4" />
+              <h3 className="text-xl font-heading font-semibold mb-2">{learningGoal}</h3>
+              <p className="text-base text-[#E0E0E0]/80 mb-4 flex-grow">Commitment: {hoursPerDayCommitment}h/day</p>
+              <Button
+                size="default"
+                onClick={() => navigate(`/roadmap/${id}`)}
+                className="mt-auto bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white cursor-pointer transform transition-transform duration-200 hover:scale-105"
+              >
+                Continue
+              </Button>
+            </motion.div>
+          ))
+        )}
       </div>
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
