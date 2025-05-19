@@ -21,30 +21,11 @@ interface QuizQuestionAPI {
 export default function RoadmapQuizPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [checkingAnswered, setCheckingAnswered] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-    async function checkQuizAnswered() {
-      try {
-        await roadmapService.getQuizScore(id!);
-        if (isMounted) {
-          navigate(`/roadmap/${id}/quiz/result`);
-        }
-      } catch (err) {
-        // If error, user hasn't answered, continue as normal
-      } finally {
-        if (isMounted) setCheckingAnswered(false);
-      }
-    }
-    if (id) checkQuizAnswered();
-    return () => { isMounted = false; };
-  }, [id, navigate]);
 
   const { data: quiz, isLoading, isError, error } = useQuery<QuizQuestionAPI[]>({
     queryKey: ['quiz', id!],
     queryFn: () => roadmapService.getQuiz(id!),
-    enabled: !!id && !checkingAnswered,
+    enabled: !!id,
   });
 
   const submitMutation = useMutation({
@@ -68,7 +49,6 @@ export default function RoadmapQuizPage() {
   const [selected, setSelected] = useState<Record<string, string>>({});
   const [currentStep, setCurrentStep] = useState(0);
 
-  if (checkingAnswered) return <div>Loading quiz...</div>;
   if (isLoading) return <div>Loading quiz...</div>;
   if (isError) return <div>Error: {(error as Error).message}</div>;
   if (!quiz) return <div>No quiz available.</div>;
