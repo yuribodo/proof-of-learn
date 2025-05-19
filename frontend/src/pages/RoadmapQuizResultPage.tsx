@@ -48,7 +48,7 @@ export default function RoadmapQuizResultPage() {
   return (
     <div className="min-h-screen bg-[#121212] text-[#E0E0E0] p-6">
       <div className="container mx-auto max-w-3xl">
-        <h1 className="text-3xl font-heading font-bold mb-6">Resultado do Quiz</h1>
+        <h1 className="text-3xl font-heading font-bold mb-6">Quiz Result</h1>
         <div className="bg-[#2A2D3E] p-6 rounded-md mb-6 text-center">
           <motion.div
             initial={{ scale: 0 }}
@@ -60,18 +60,18 @@ export default function RoadmapQuizResultPage() {
             </span>
           </motion.div>
           <p className="mt-2 text-sm text-[#E0E0E0]/80">
-            Acertou {result.totalCorrect} de {result.totalQuestions} perguntas
+            You got {result.totalCorrect} out of {result.totalQuestions} questions right
           </p>
         </div>
 
         {result.correctAnswers.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-2xl font-medium mb-3 text-[#41E988]">Perguntas Corretas</h2>
+            <h2 className="text-2xl font-medium mb-3 text-[#41E988]">Correct Answers</h2>
             <ul className="list-disc list-inside space-y-2">
               {result.correctAnswers.map(item => (
                 <li key={item.questionId} className="bg-[#2A2D3E] p-4 rounded-md">
                   <p className="font-semibold">{item.question}</p>
-                  <p className="text-sm text-[#E0E0E0]">Resposta: {item.answer}</p>
+                  <p className="text-sm text-[#E0E0E0]">Answer: {item.answer}</p>
                 </li>
               ))}
             </ul>
@@ -80,12 +80,12 @@ export default function RoadmapQuizResultPage() {
 
         {result.wrongAnswers.length > 0 && (
           <div className="mb-6">
-            <h2 className="text-2xl font-medium mb-3 text-[#FF6B6B]">Perguntas Erradas</h2>
+            <h2 className="text-2xl font-medium mb-3 text-[#FF6B6B]">Wrong Answers</h2>
             <ul className="list-disc list-inside space-y-2">
               {result.wrongAnswers.map(item => (
                 <li key={item.questionId} className="bg-[#2A2D3E] p-4 rounded-md">
                   <p className="font-semibold">{item.question}</p>
-                  <p className="text-sm text-[#E0E0E0]">Sua resposta: {item.answer}</p>
+                  <p className="text-sm text-[#E0E0E0]">Your answer: {item.answer}</p>
                 </li>
               ))}
             </ul>
@@ -97,7 +97,7 @@ export default function RoadmapQuizResultPage() {
             className="bg-gradient-to-r from-[#6D4AFF] to-[#B668FF] text-white cursor-pointer"
             onClick={() => navigate(`/roadmap/${id}`)}
           >
-            Voltar ao Roadmap
+            Back to Roadmap
           </Button>
         </div>
       </div>

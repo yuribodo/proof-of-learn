@@ -38,7 +38,9 @@ export function RoadmapDetailPage() {
   const updateContentMutation = useMutation({
     mutationFn: (vars: { contentId: string; checked: boolean }) =>
       roadmapService.updateContentChecked(id!, vars.contentId, vars.checked),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['roadmap', id!] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['roadmap', id!] });
+    },
   });
   const { data: roadmapData, isLoading, isError, error } = useQuery<RoadmapDataAPI>({
     queryKey: ['roadmap', id!],
@@ -132,9 +134,13 @@ export function RoadmapDetailPage() {
             title={learningGoal}
             description={`Commitment: ${hoursPerDayCommitment}h/day`}
             categories={categories}
-            onToggleContent={(contentId: string, checked: boolean) =>
-              updateContentMutation.mutate({ contentId, checked })
-            }
+            onToggleContent={(contentId: string, checked: boolean) => {
+              updateContentMutation.mutate({ contentId, checked }, {
+                onSuccess: () => {
+                  queryClient.invalidateQueries({ queryKey: ['roadmap', id!] });
+                }
+              });
+            }}
           />
         ) : (
           <div className="mt-8">
@@ -143,9 +149,13 @@ export function RoadmapDetailPage() {
               title={learningGoal}
               description={`Commitment: ${hoursPerDayCommitment}h/day`}
               categories={categories}
-              onToggleContent={(contentId: string, checked: boolean) =>
-                updateContentMutation.mutate({ contentId, checked })
-              }
+              onToggleContent={(contentId: string, checked: boolean) => {
+                updateContentMutation.mutate({ contentId, checked }, {
+                  onSuccess: () => {
+                    queryClient.invalidateQueries({ queryKey: ['roadmap', id!] });
+                  }
+                });
+              }}
             />
           </div>
         )}
