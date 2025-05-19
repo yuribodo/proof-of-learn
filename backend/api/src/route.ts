@@ -12,9 +12,9 @@ import { PostQuizAnswersController } from "../controllers/roadmaps/quiz/PostQuiz
 import { GetTopicByIdController } from "../controllers/roadmaps/topics/GetTopicById";
 import { UpdateContentCheckedController } from "../controllers/roadmaps/topics/UpdateContentChecked";
 
-import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 import { DeleteRoadmap } from "../controllers/roadmaps/DeleteRoadmap";
-
+import { GetZkProofController } from "../controllers/zkProof/GetZkProofController";
+import { AuthenticationMiddleware } from "../middlewares/AuthenticationMiddleware";
 
 const router = Router();
 
@@ -28,19 +28,9 @@ router.get(
 	"/roadmaps/:roadmapId",
 	AuthenticationMiddleware,
 	GetRoadmapByIdController
-
 );
-router.post(
-	"/roadmaps",
-	AuthenticationMiddleware,
-	PostRoadmapController
-);
-router.delete(
-	"/roadmaps/:roadmapId",
-	AuthenticationMiddleware,
-	DeleteRoadmap
-);
-
+router.post("/roadmaps", AuthenticationMiddleware, PostRoadmapController);
+router.delete("/roadmaps/:roadmapId", AuthenticationMiddleware, DeleteRoadmap);
 
 // roadmap topic
 router.get(
@@ -85,6 +75,7 @@ router.get("/me", AuthenticationMiddleware, GetAuthenticatedUserController);
 router.get(
 	"/zk-proof/:roadmapId",
 	AuthenticationMiddleware,
+	GetZkProofController
 );
 
 export { router };

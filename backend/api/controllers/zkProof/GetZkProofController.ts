@@ -113,8 +113,8 @@ export async function GetZkProofController(req: Request, res: Response) {
 	try {
 		const { proof } = await snarkjs.groth16.fullProve(
 			input,
-			path.join(__dirname, "../../../zk/circuit.wasm"),
-			path.join(__dirname, "../../../zk/circuit_final.zkey")
+			path.join(__dirname, "../../build/circuit_js/circuit.wasm"),
+			path.join(__dirname, "../../build/circuit_final.zkey")
 		);
 
 		const a = [proof.pi_a[0], proof.pi_a[1]];
