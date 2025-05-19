@@ -18,6 +18,7 @@ import type { LoginDTO } from "@/@types/auth";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/auth/AuthProvider";
+import { toast } from 'sonner';
 
 type FormData = z.infer<typeof loginSchema>;
 
@@ -40,8 +41,10 @@ export default function LoginForm() {
 
 			navigate("/roadmaps");
 		},
-		onError: (error) => {
+		onError: (error: any) => {
 			console.error("Failed to sign in", error);
+			const apiMessage = error?.response?.data?.error;
+			toast.error(apiMessage || 'Login failed. Please check your credentials.');
 		},
 	});
 
