@@ -6,7 +6,7 @@ const app = express();
 
 app.use(
 	cors({
-		origin: "*",
+		origin: "https://proof-of-learn-q874.vercel.app",
 		credentials: true,
 	})
 );
