@@ -9,18 +9,18 @@ export function HeroSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative flex items-center justify-center h-screen bg-[#121212] overflow-hidden">
+    <section className="relative flex items-center justify-center h-screen bg-transparent overflow-hidden">
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 0.2, scale: 2 }}
         transition={{ duration: 1.5, ease: 'easeOut' }}
-        className="absolute bg-[#6D4AFF] rounded-full w-96 h-96 top-1/4 left-1/3 filter blur-3xl"
+        className="absolute rounded-full w-96 h-96 top-1/4 left-1/3 filter "
       />
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 0.15, scale: 1.5 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
-        className="absolute bg-[#B668FF] rounded-full w-72 h-72 bottom-1/4 right-1/3 filter blur-2xl"
+        className="absolute rounded-full w-72 h-72 bottom-1/4 right-1/3 filter "
       />
 
       <div className="relative z-10 text-center px-4">

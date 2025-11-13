@@ -11,20 +11,20 @@ export function CTASection() {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
       viewport={{ once: true }}
-      className="relative py-24 bg-[#121212] overflow-hidden"
+      className="relative py-24 bg-transparent overflow-hidden"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         whileInView={{ opacity: 0.18, scale: 1.7 }}
         transition={{ duration: 1.5, ease: 'easeOut' }}
-        className="absolute bg-[#6D4AFF] rounded-full w-96 h-96 top-1/4 left-1/3 filter blur-3xl z-0"
+        className="absolute rounded-full w-96 h-96 top-1/4 left-1/3 filter  z-0"
         aria-hidden
       />
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         whileInView={{ opacity: 0.13, scale: 1.3 }}
         transition={{ duration: 1.2, ease: 'easeOut' }}
-        className="absolute bg-[#B668FF] rounded-full w-72 h-72 bottom-1/4 right-1/3 filter blur-2xl z-0"
+        className="absolute rounded-full w-72 h-72 bottom-1/4 right-1/3 filter z-0"
         aria-hidden
       />
       <div className="relative z-10 container mx-auto px-4 text-center">
